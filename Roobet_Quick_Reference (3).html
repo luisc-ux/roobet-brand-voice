@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roobet Quick Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-dim: #8A6E2F;
+  --purple: #0E0120;
+  --purple-mid: #1A0533;
+  --purple-card: #160328;
+  --white: #F5F2EC;
+  --white-dim: rgba(245,242,236,0.6);
+  --white-faint: rgba(245,242,236,0.10);
+  --red: #E05252;
+  --green: #52C887;
+  --display: 'Bebas Neue', sans-serif;
+  --body: 'DM Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--purple);
+  color: var(--white);
+  font-family: var(--body);
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── PRINT ── */
+@media print {
+  body { background: white; color: #111; font-size: 10px; }
+  .page { max-width: 100%; padding: 0; }
+  .card { border: 1px solid #ddd; background: #fafafa !important; break-inside: avoid; }
+  .card-title { color: #1A0533 !important; }
+  .gold { color: #8A6E2F !important; }
+  .red { color: #C0392B !important; }
+  .green { color: #1A6B3C !important; }
+  .pill { background: #eee !important; color: #333 !important; }
+  .avoid-bad { color: #C0392B !important; }
+  nav { display: none; }
+  .print-btn { display: none; }
+}
+
+/* ── LAYOUT ── */
+nav {
+  background: rgba(14,1,32,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nav-logo { font-family: var(--display); font-size: 22px; letter-spacing: 3px; color: var(--gold); }
+.print-btn {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--purple);
+  background: var(--gold);
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.print-btn:hover { background: #E8C870; }
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 40px 80px;
+}
+
+/* ── HEADER ── */
+.qr-header {
+  border-left: 4px solid var(--gold);
+  padding: 0 0 0 24px;
+  margin-bottom: 40px;
+}
+.qr-header h1 {
+  font-family: var(--display);
+  font-size: 52px;
+  letter-spacing: 3px;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.qr-header p {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── GRID ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.grid-full { margin-bottom: 16px; }
+.span2 { grid-column: span 2; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--purple-card);
+  border: 1px solid var(--white-faint);
+  padding: 20px 24px;
+  position: relative;
+}
+.card-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--white-faint);
+}
+
+/* ── PRINCIPLES ── */
+.principles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px; }
+.principle-pill {
+  background: var(--purple-card);
+  border: 1px solid var(--white-faint);
+  padding: 14px 16px;
+  border-top: 2px solid var(--gold);
+}
+.p-num { font-family: var(--display); font-size: 28px; color: rgba(201,168,76,0.2); line-height: 1; }
+.p-bold { font-size: 13px; font-weight: 700; color: var(--gold); }
+.p-light { font-size: 12px; color: var(--white-dim); margin-bottom: 6px; }
+.p-desc { font-size: 11px; color: var(--white-dim); line-height: 1.4; }
+
+/* ── CHANNEL TABLE ── */
+.ch-table { width: 100%; border-collapse: collapse; }
+.ch-table th {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+  background: rgba(201,168,76,0.04);
+}
+.ch-table td {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--white-dim);
+  border-bottom: 1px solid var(--white-faint);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.ch-table td:first-child { font-weight: 600; color: var(--white); white-space: nowrap; }
+.ch-table td:nth-child(2) { font-family: var(--mono); color: var(--gold); font-size: 12px; white-space: nowrap; }
+.ch-table tr:last-child td { border-bottom: none; }
+
+/* ── AVOID ── */
+.avoid-list { display: grid; gap: 4px; }
+.avoid-row { display: grid; grid-template-columns: 180px 1fr; gap: 0; }
+.avoid-bad {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--red);
+  padding: 7px 10px;
+  background: rgba(224,82,82,0.06);
+  border-left: 2px solid var(--red);
+}
+.avoid-why {
+  font-size: 11px;
+  color: var(--white-dim);
+  padding: 7px 10px;
+  background: var(--white-faint);
+  line-height: 1.4;
+}
+
+/* ── CTA GRID ── */
+.cta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.cta-pill {
+  padding: 8px 12px;
+  background: var(--white-faint);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--white);
+  border-left: 2px solid var(--gold);
+}
+.cta-pill.bad {
+  border-color: var(--red);
+  color: var(--white-dim);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+/* ── CHECKLIST ── */
+.check-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--white-faint);
+  font-size: 12px;
+  color: var(--white-dim);
+  line-height: 1.4;
+  cursor: pointer;
+}
+.check-item:hover { background: rgba(201,168,76,0.06); }
+.check-box-ui {
+  width: 16px; height: 16px;
+  border: 1px solid var(--gold-dim);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700;
+  color: var(--purple);
+  transition: all 0.15s;
+}
+.check-item.checked .check-box-ui { background: var(--gold); border-color: var(--gold); }
+.check-item.checked span { opacity: 0.5; }
+
+/* ── VOCAB ── */
+.vocab-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.vocab-pill {
+  padding: 10px 12px;
+  background: var(--white-faint);
+  font-family: var(--display);
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  border-bottom: 2px solid rgba(201,168,76,0.3);
+}
+
+/* ── AUDIENCE ── */
+.audience-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.aud-col { padding: 14px; }
+.aud-col.yes { background: rgba(82,200,135,0.05); border-left: 2px solid var(--green); }
+.aud-col.no { background: rgba(224,82,82,0.05); border-left: 2px solid var(--red); }
+.aud-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.aud-col.yes .aud-label { color: var(--green); }
+.aud-col.no .aud-label { color: var(--red); }
+.aud-item { font-size: 12px; color: var(--white-dim); padding: 3px 0; line-height: 1.4; }
+
+/* ── TONE MODES ── */
+.tone-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tone-box { padding: 14px 16px; border-top: 2px solid; }
+.tone-box.playful { border-color: var(--gold); background: rgba(201,168,76,0.04); }
+.tone-box.quiet { border-color: rgba(245,242,236,0.3); background: var(--white-faint); }
+.tone-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--white-dim); margin-bottom: 8px; }
+.tone-ex { font-size: 12px; font-style: italic; color: var(--white); padding: 4px 0; border-bottom: 1px solid var(--white-faint); line-height: 1.4; }
+.tone-ex:last-child { border-bottom: none; }
+
+/* ── EDGE NOTE ── */
+.edge-note {
+  padding: 14px 16px;
+  background: rgba(201,168,76,0.04);
+  border-left: 3px solid var(--gold);
+  font-size: 12px;
+  color: var(--white-dim);
+  line-height: 1.6;
+}
+.edge-note strong { color: var(--white); }
+
+/* ── SECTION DIVIDER ── */
+.sec-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.5);
+  margin: 28px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--white-faint);
+}
+.sec-label:first-child { margin-top: 0; }
+
+@media (max-width: 800px) {
+  .page { padding: 24px 16px 60px; }
+  .principles { grid-template-columns: 1fr 1fr; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .span2 { grid-column: span 1; }
+  .cta-grid, .vocab-grid { grid-template-columns: 1fr 1fr; }
+  .check-list { grid-template-columns: 1fr; }
+  .avoid-row { grid-template-columns: 1fr; }
+  .avoid-why { border-left: 2px solid var(--white-faint); }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">ROOBET</div>
+  <button class="print-btn" onclick="window.print()">↓ Print / Save PDF</button>
+</nav>
+
+<div class="page">
+
+  <div class="qr-header">
+    <h1>QUICK REFERENCE</h1>
+    <p>Brand Voice · Copy Rules · Internal Use Only</p>
+  </div>
+
+  <!-- THE 5 PRINCIPLES -->
+  <p class="sec-label">The 5 Principles</p>
+  <div class="principles">
+    <div class="principle-pill">
+      <div class="p-num">01</div>
+      <div class="p-bold">SHORT,</div>
+      <div class="p-light">not padded</div>
+      <div class="p-desc">Lead with the point. If it can be one sentence, make it one.</div>
+    </div>
+    <div class="principle-pill">
+      <div class="p-num">02</div>
+      <div class="p-bold">LOUD,</div>
+      <div class="p-light">not yelling</div>
+      <div class="p-desc">Energy comes from what you say, not from !!! or CAPS.</div>
+    </div>
+    <div class="principle-pill">
+      <div class="p-num">03</div>
+      <div class="p-bold">SHARP,</div>
+      <div class="p-light">not smug</div>
+      <div class="p-desc">The reader is always in on the joke. Never above them.</div>
+    </div>
+    <div class="principle-pill">
+      <div class="p-num">04</div>
+      <div class="p-bold">REAL,</div>
+      <div class="p-light">not performative</div>
+      <div class="p-desc">No forced slang. No chasing trends. Mean what you say.</div>
+    </div>
+    <div class="principle-pill">
+      <div class="p-num">05</div>
+      <div class="p-bold">BOLD,</div>
+      <div class="p-light">not reckless</div>
+      <div class="p-desc">We hype the win. We never mock the miss.</div>
+    </div>
+  </div>
+
+  <!-- TONE + AUDIENCE -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Tone Modes</div>
+      <div class="tone-split">
+        <div class="tone-box playful">
+          <div class="tone-label">Controlled Playful</div>
+          <div class="tone-ex">"Zeus built a roulette table. It's unhinged."</div>
+          <div class="tone-ex">"$30K. Three games. Closes Sunday."</div>
+        </div>
+        <div class="tone-box quiet">
+          <div class="tone-label">Quiet Confidence</div>
+          <div class="tone-ex">"It's already in your account. Use it."</div>
+          <div class="tone-ex">"One winner goes to Monaco."</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--white-dim);padding-top:10px;border-top:1px solid var(--white-faint);">
+        <strong style="color:var(--white);">ACQ player-facing:</strong> second person, Roobet-warm &nbsp;·&nbsp; <strong style="color:var(--white);">ACQ affiliate:</strong> third person, "players can..." &nbsp;·&nbsp; <strong style="color:var(--white);">CRM:</strong> full voice, adjust for player stage (New / Active / VIP / Lapsed / Churned)
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">What the Audience Responds To</div>
+      <div class="audience-split">
+        <div class="aud-col yes">
+          <div class="aud-label">✓ Works</div>
+          <div class="aud-item">Exclusivity</div>
+          <div class="aud-item">Progression / momentum</div>
+          <div class="aud-item">Live experiences</div>
+          <div class="aud-item">Competition / ranking</div>
+          <div class="aud-item">Scarcity</div>
+          <div class="aud-item">Fast feedback loops</div>
+        </div>
+        <div class="aud-col no">
+          <div class="aud-label">✗ Doesn't</div>
+          <div class="aud-item">Corporate language</div>
+          <div class="aud-item">Generic casino terms</div>
+          <div class="aud-item">Overexplaining</div>
+          <div class="aud-item">Long intros</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHANNELS + CTAs -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Channel Rules</div>
+      <table class="ch-table">
+        <thead>
+          <tr><th>Channel</th><th>Limit</th><th>Key rule</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Subject Line</td><td>~50 ch</td><td>Hook in first 4–6 words. No ! here. 1 emoji max. Never open with the campaign name.</td></tr>
+          <tr><td>Preheader</td><td>~85 ch</td><td>Second beat: don't repeat the SL. Urgency or punchline.</td></tr>
+          <tr><td>LP Title</td><td>26 ch max</td><td>Promo name if possible. No ! The strictest limit in the stack.</td></tr>
+          <tr><td>LP Subtitle</td><td>39–42 ch</td><td>Answers What/When/How. Ends with ! Test for cut-off.</td></tr>
+          <tr><td>Onsite Body</td><td>~180 ch</td><td>Create desire. Confirm with stakeholder whether to include mechanics before writing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">CTAs: Use These</div>
+      <div class="cta-grid" style="margin-bottom:12px;">
+        <div class="cta-pill">Play Now</div>
+        <div class="cta-pill">Claim Reward</div>
+        <div class="cta-pill">Join In</div>
+        <div class="cta-pill">Enter Now</div>
+        <div class="cta-pill">Keep Going</div>
+        <div class="cta-pill">Spin Now</div>
+        <div class="cta-pill">Bet Now</div>
+        <div class="cta-pill">Deposit Now</div>
+        <div class="cta-pill">Hop In</div>
+      </div>
+      <div class="card-title" style="margin-top:4px;">Not These</div>
+      <div class="cta-grid">
+        <div class="cta-pill bad">Click Here</div>
+        <div class="cta-pill bad">Chase the win</div>
+        <div class="cta-pill bad">Don't miss out</div>
+      </div>
+      <div style="margin-top:12px;font-size:11px;color:var(--white-dim);padding-top:10px;border-top:1px solid var(--white-faint);">
+        Max <strong style="color:var(--white);">3 words</strong> (prefer 2) &nbsp;·&nbsp; Strong verb first &nbsp;·&nbsp; "Get X if Y", not "If Y, get X"
+      </div>
+    </div>
+  </div>
+
+  <!-- PROMO VOCAB + EDGE NOTE -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Promotion Vocabulary</div>
+      <div class="vocab-grid">
+        <div class="vocab-pill">Progress</div>
+        <div class="vocab-pill">Momentum</div>
+        <div class="vocab-pill">Unlocking</div>
+        <div class="vocab-pill">Building</div>
+        <div class="vocab-pill">Climbing</div>
+        <div class="vocab-pill">Extra chances</div>
+        <div class="vocab-pill">Live draws</div>
+        <div class="vocab-pill">VIP access</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">On Edge & Innuendo</div>
+      <div class="edge-note">
+        Roobet has permission to live close to a line. Copy can carry a double reading, as long as it's smart enough that the joke works either way.<br><br>
+        <strong>The test:</strong> remove the second reading. Does the line still work? If yes, you're good. If it only works as innuendo, it's too much.<br><br>
+        <strong>✓ Works in:</strong> CRM body, onsite inbox, sports campaigns.<br>
+        <strong>✗ Not in:</strong> welcome emails, ACQ, or subject lines without context.
+      </div>
+    </div>
+  </div>
+
+  <!-- UNIVERSAL RULES -->
+  <div class="grid-full">
+    <div class="card">
+      <div class="card-title">Universal Rules</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <div style="padding:10px 12px;background:var(--white-faint);font-size:12px;color:var(--white-dim);line-height:1.5;border-left:2px solid var(--gold);">
+          <strong style="color:var(--white);">One ! per piece.</strong> If it doesn't earn it, cut it.
+        </div>
+        <div style="padding:10px 12px;background:var(--white-faint);font-size:12px;color:var(--white-dim);line-height:1.5;border-left:2px solid var(--gold);">
+          <strong style="color:var(--white);">No em dashes.</strong> Ever. Use a period, comma, or restructure.</div>
+        <div style="padding:10px 12px;background:var(--white-faint);font-size:12px;color:var(--white-dim);line-height:1.5;border-left:2px solid var(--gold);"><strong style="color:var(--white);">Never "chase"</strong> in CTAs.
+        </div>
+        <div style="padding:10px 12px;background:var(--white-faint);font-size:12px;color:var(--white-dim);line-height:1.5;border-left:2px solid var(--gold);">
+          <strong style="color:var(--white);">"Don't Like Fun?"</strong>: unsubscribe line. Never change it.
+        </div>
+        <div style="padding:10px 12px;background:var(--white-faint);font-size:12px;color:var(--white-dim);line-height:1.5;border-left:2px solid var(--gold);">
+          Welcome emails: <strong style="color:var(--white);">"Crypto's Fastest Growing Casino"</strong> + specific promise immediately after.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORDS TO AVOID -->
+  <div class="grid-full">
+    <div class="card">
+      <div class="card-title">Words & Phrases to Avoid</div>
+      <div class="avoid-list">
+        <div class="avoid-row">
+          <div class="avoid-bad">stake</div>
+          <div class="avoid-why">Avoid entirely: verb and competing brand reference.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">log in (to logged-in users)</div>
+          <div class="avoid-why">They're already in. Confusing at best, lazy at worst.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">Don't miss out!</div>
+          <div class="avoid-why">Generic casino panic. Be specific about what they're missing.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">Huge rewards await</div>
+          <div class="avoid-why">Vague. Replace with the actual number.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">This is your chance!</div>
+          <div class="avoid-why">Every casino says this. The copy itself should create urgency.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">Amazing / incredible</div>
+          <div class="avoid-why">Replace with a specific fact. Facts beat adjectives.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">We miss you!</div>
+          <div class="avoid-why">Try: "Your account's been quiet. We put something in it."</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">WIN BIG / FREE!!! / GUARANTEED</div>
+          <div class="avoid-why">Spam triggers. Kills deliverability instantly.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">LIMITED TIME OFFER</div>
+          <div class="avoid-why">"Closes Sunday" beats "limited time" every time.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">Exclusive offer</div>
+          <div class="avoid-why">Prove it: say who it's for and why.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">Click here</div>
+          <div class="avoid-why">"Claim your $20" beats "click here" every time.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">contendientes (ES)</div>
+          <div class="avoid-why">Doesn't land naturally in LATAM markets.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRE-SUBMIT CHECKLIST -->
+  <p class="sec-label">Pre-Submit Checklist (click to check off)</p>
+  <div class="check-list">
+    <div style="grid-column:1/-1;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:8px 0 4px;">Before you start</div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Total copies, campaign name, game names, and dates confirmed?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Mechanics clearly explained in the brief?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Theme makes sense and aligns with game sheet?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>For onsites: desire-only or mechanic summary? Confirmed with stakeholder?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Anything specific that must appear in the copy? Confirmed with stakeholder?</span>
+    </div>
+    <div style="grid-column:1/-1;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:8px 0 4px;margin-top:8px;">Before you submit</div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Could a competitor have written this? If yes, it's not Roobet yet.</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Does it lead with the reward? "Get X if Y", not "If Y, get X."</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Does the copy feel live, not like an announcement?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Tone right for the player stage? (New / Active / VIP / Lapsed / Churned)</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Longer campaign: no repeated openers or urgency devices from previous rounds?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Does it answer What, When, and How?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Exclusivity periods included where required?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Prize amounts match across brief, LP, email, and onsite?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>LP has full detail? (Email can play a little. LP cannot.)</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Character limits respected for every channel and language?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>No dollar amounts or prize figures in subject line or preheader?</span>
+    </div>
+    <div class="check-item" onclick="this.classList.toggle('checked')">
+      <div class="check-box-ui">✓</div>
+      <span>Anything still to confirm with the stakeholder before this goes out?</span>
+    </div>
+  </div>
+
+  <!-- EMAIL DELIVERABILITY -->
+  <p class="sec-label">Email Deliverability</p>
+  <div class="grid-full">
+    <div class="card">
+      <div class="card-title">Deliverability Rules: Protect Inbox Placement</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--white-faint);">Subject Line</div>
+          <div style="font-size:12px;color:var(--white-dim);line-height:1.6;">No $ amounts or currency figures. No % figures. One emoji max. Filters detect the presence of an emoji, not which one. The limit is on quantity, not type. Lead with narrative or curiosity, not financial value. Personalization tokens are fine.</div>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--white-faint);">Pre-header</div>
+          <div style="font-size:12px;color:var(--white-dim);line-height:1.6;">Read alongside the SL by Gmail's algorithm. Don't use the PH to sneak in prize amounts cut from the SL. That workaround doesn't work. Story or intrigue only.</div>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--white-faint);">Body Copy</div>
+          <div style="font-size:12px;color:var(--white-dim);line-height:1.6;">Dollar amounts are fine in the body for existing subscribers. Don't stack prize figures, opt-in language, and "Promotions Page" in the opening lines. Lead with narrative first.</div>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--white-faint);">Structure</div>
+          <div style="font-size:12px;color:var(--white-dim);line-height:1.6;">Always include a plain text alternative. Maintain healthy image-to-text ratio. One large image with minimal text reads as spam.</div>
+        </div>
+      </div>
+      <div class="card-title" style="margin-top:8px;">Words to Avoid in Subject Line & Pre-header</div>
+      <div class="avoid-list">
+        <div class="avoid-row">
+          <div class="avoid-bad">free / bonus / prize</div>
+          <div class="avoid-why">Primary spam filter triggers. Use "reward", "drop", or describe the specific thing instead.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">win / jackpot / guaranteed</div>
+          <div class="avoid-why">High-risk trigger words regardless of context. Rephrase around the game or moment instead.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">$[any amount] in SL or PH</div>
+          <div class="avoid-why">Financial figures in the subject line are the single biggest promo-tab signal. Move amounts to the body.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">cash / exclusive offer / act now</div>
+          <div class="avoid-why">Generic commercial language. Be specific about what, when, and who.</div>
+        </div>
+        <div class="avoid-row">
+          <div class="avoid-bad">limited time / click here</div>
+          <div class="avoid-why">Both are spam flags. Use specific dates and specific CTAs instead.</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px 14px;background:rgba(201,168,76,0.06);border-left:2px solid var(--gold);font-size:12px;color:var(--white-dim);line-height:1.5;">
+        <strong style="color:var(--white);">Pre-send check:</strong> Run GlockApps or mail-tester.com before every send. Monitor domain reputation via Google Postmaster Tools. Safe SL/PH words: tournament, round, stage, points, tonight, your username token, sport/team references, specific dates.
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER RULE -->
+  <div style="margin-top:32px;padding:20px 28px;border-left:3px solid var(--gold);background:var(--white-faint);">
+    <p style="font-family:var(--display);font-size:28px;letter-spacing:2px;color:var(--white);">If it could have been written by a competitor, it's not good enough.</p>
+  </div>
+
+</div>
+
+<script>
+// Checklist state already handled via onclick toggle
+// Print preserves checked state visually
+</script>
+</body>
+</html>
