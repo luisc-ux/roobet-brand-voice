@@ -1,0 +1,268 @@
+/* ── COMMENT TRIGGER ICON ── */
+.cvox-block {
+  position: relative;
+}
+
+.cvox-trigger {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.25);
+  color: rgba(201,168,76,0.5);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s, color 0.2s;
+  z-index: 10;
+  line-height: 1;
+}
+
+.cvox-block:hover .cvox-trigger {
+  opacity: 1;
+}
+
+.cvox-trigger:hover {
+  background: rgba(201,168,76,0.25);
+  color: #C9A84C;
+}
+
+.cvox-trigger.has-comments {
+  opacity: 1;
+  background: rgba(201,168,76,0.18);
+  color: #C9A84C;
+}
+
+.cvox-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #C9A84C;
+  color: #0E0120;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ── HIGHLIGHT when coming from review panel ── */
+.cvox-block.cvox-highlighted {
+  outline: 2px solid #C9A84C;
+  outline-offset: 3px;
+  animation: cvoxPulse 1.5s ease 2;
+}
+
+@keyframes cvoxPulse {
+  0%, 100% { outline-color: rgba(201,168,76,0.3); }
+  50%       { outline-color: #C9A84C; }
+}
+
+/* ── MODAL OVERLAY ── */
+.cvox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14,1,32,0.85);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.cvox-overlay.cvox-open {
+  opacity: 1;
+}
+
+/* ── MODAL BOX ── */
+.cvox-modal {
+  background: #160328;
+  border: 1px solid rgba(201,168,76,0.25);
+  width: 100%;
+  max-width: 520px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 32px;
+  transform: translateY(16px);
+  transition: transform 0.2s;
+}
+
+.cvox-overlay.cvox-open .cvox-modal {
+  transform: translateY(0);
+}
+
+.cvox-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cvox-modal-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C9A84C;
+}
+
+.cvox-modal-block-label {
+  font-size: 13px;
+  color: rgba(245,242,236,0.5);
+  margin-top: 4px;
+  line-height: 1.4;
+  max-width: 380px;
+}
+
+.cvox-modal-close {
+  background: none;
+  border: none;
+  color: rgba(245,242,236,0.4);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.cvox-modal-close:hover { color: #F5F2EC; }
+
+/* ── EXISTING COMMENTS in modal ── */
+.cvox-existing {
+  margin-bottom: 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.cvox-existing-comment {
+  padding: 12px 14px;
+  background: rgba(245,242,236,0.05);
+  border-left: 2px solid rgba(201,168,76,0.3);
+}
+
+.cvox-existing-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: rgba(245,242,236,0.35);
+  margin-bottom: 4px;
+}
+
+.cvox-existing-text {
+  font-size: 13px;
+  color: rgba(245,242,236,0.75);
+  line-height: 1.5;
+}
+
+.cvox-existing-reply {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(201,168,76,0.06);
+  border-left: 2px solid #C9A84C;
+  font-size: 12px;
+  color: rgba(245,242,236,0.6);
+  line-height: 1.5;
+}
+
+.cvox-existing-reply-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(201,168,76,0.6);
+  margin-bottom: 3px;
+}
+
+/* ── FORM ── */
+.cvox-form-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(245,242,236,0.4);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.cvox-input, .cvox-textarea {
+  width: 100%;
+  background: rgba(245,242,236,0.05);
+  border: 1px solid rgba(245,242,236,0.1);
+  color: #F5F2EC;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: none;
+  margin-bottom: 14px;
+}
+
+.cvox-input:focus, .cvox-textarea:focus {
+  border-color: rgba(201,168,76,0.5);
+}
+
+.cvox-textarea {
+  min-height: 90px;
+}
+
+.cvox-submit {
+  background: #C9A84C;
+  color: #0E0120;
+  border: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cvox-submit:hover { background: #E8C870; }
+.cvox-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── DIVIDER ── */
+.cvox-divider {
+  height: 1px;
+  background: rgba(245,242,236,0.08);
+  margin: 20px 0;
+}
+
+/* ── TOAST ── */
+.cvox-toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: #C9A84C;
+  color: #0E0120;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  padding: 12px 20px;
+  z-index: 2000;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+
+.cvox-toast.cvox-show {
+  opacity: 1;
+  transform: translateY(0);
+}

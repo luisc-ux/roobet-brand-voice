@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roobet — Comment Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="assets/config.js"></script>
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-dim: #8A6E2F;
+  --purple: #0E0120;
+  --purple-card: #160328;
+  --purple-hover: #1F0540;
+  --white: #F5F2EC;
+  --white-dim: rgba(245,242,236,0.55);
+  --white-faint: rgba(245,242,236,0.10);
+  --red: #E05252;
+  --green: #52C887;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--purple);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+nav {
+  background: rgba(14,1,32,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nav-logo { font-family: var(--font-display); font-size: 22px; letter-spacing: 3px; color: var(--gold); }
+.nav-back { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white-dim); text-decoration: none; transition: color 0.2s; }
+.nav-back:hover { color: var(--gold); }
+
+.page { max-width: 900px; margin: 0 auto; padding: 48px 40px 80px; }
+
+h1 { font-family: var(--font-display); font-size: 48px; letter-spacing: 2px; margin-bottom: 4px; }
+.subtitle { font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; }
+
+/* FILTERS */
+.filters {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border: 1px solid var(--white-faint);
+  background: transparent;
+  color: var(--white-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover { border-color: rgba(201,168,76,0.4); color: var(--gold); }
+.filter-btn.active { background: var(--gold); color: var(--purple); border-color: var(--gold); font-weight: 700; }
+.filter-count { font-size: 10px; opacity: 0.7; margin-left: 4px; }
+
+/* COMMENT CARDS */
+.comment-list { display: grid; gap: 2px; }
+
+.comment-card {
+  background: var(--purple-card);
+  border: 1px solid var(--white-faint);
+  padding: 24px 28px;
+  transition: background 0.2s;
+}
+.comment-card:hover { background: var(--purple-hover); }
+
+.comment-card.status-approved { border-left: 3px solid var(--green); }
+.comment-card.status-rejected { border-left: 3px solid var(--red); opacity: 0.6; }
+.comment-card.status-pending  { border-left: 3px solid rgba(201,168,76,0.4); }
+
+.comment-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.comment-author { font-weight: 600; color: var(--white); }
+.comment-date { font-family: var(--font-mono); font-size: 11px; color: var(--white-dim); }
+.comment-block {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  background: rgba(201,168,76,0.06);
+  padding: 2px 8px;
+}
+.status-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  margin-left: auto;
+}
+.status-badge.pending  { color: rgba(245,242,236,0.4); background: var(--white-faint); }
+.status-badge.approved { color: var(--green); background: rgba(82,200,135,0.1); }
+.status-badge.rejected { color: var(--red); background: rgba(224,82,82,0.1); }
+
+.comment-content {
+  font-size: 15px;
+  color: var(--white-dim);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* REPLIES */
+.reply-list { display: grid; gap: 6px; margin-bottom: 16px; }
+.reply-item {
+  padding: 10px 14px;
+  background: rgba(201,168,76,0.06);
+  border-left: 2px solid var(--gold);
+  font-size: 13px;
+  color: rgba(245,242,236,0.7);
+  line-height: 1.5;
+}
+.reply-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(201,168,76,0.5);
+  margin-bottom: 3px;
+}
+
+.reply-form { margin-bottom: 16px; }
+.reply-textarea {
+  width: 100%;
+  background: rgba(245,242,236,0.05);
+  border: 1px solid rgba(245,242,236,0.1);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 10px 12px;
+  resize: none;
+  min-height: 70px;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 8px;
+}
+.reply-textarea:focus { border-color: rgba(201,168,76,0.4); }
+
+/* ACTIONS */
+.comment-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.action-btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 7px 14px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.action-btn:hover { opacity: 0.8; }
+.action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-reply   { background: var(--gold); color: var(--purple); }
+.btn-approve { background: var(--green); color: var(--purple); }
+.btn-reject  { background: var(--red); color: var(--white); }
+.btn-pending { background: var(--white-faint); color: var(--white-dim); }
+.btn-view    { background: transparent; color: var(--gold); border: 1px solid rgba(201,168,76,0.3); text-decoration: none; display: inline-flex; align-items: center; }
+
+.empty-state {
+  text-align: center;
+  padding: 64px 0;
+  color: var(--white-dim);
+  font-style: italic;
+}
+
+.loading {
+  text-align: center;
+  padding: 48px 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,242,236,0.3);
+}
+
+.toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: var(--gold);
+  color: var(--purple);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  padding: 12px 20px;
+  z-index: 2000;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">ROOBET</div>
+  <a href="index.html" class="nav-back">← Back to guide</a>
+</nav>
+
+<div class="page">
+  <h1>COMMENT REVIEW</h1>
+  <p class="subtitle">Brand Voice Manual · Internal</p>
+
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All <span class="filter-count" id="count-all">0</span></button>
+    <button class="filter-btn" data-filter="pending" onclick="setFilter('pending')">Pending <span class="filter-count" id="count-pending">0</span></button>
+    <button class="filter-btn" data-filter="approved" onclick="setFilter('approved')">Approved <span class="filter-count" id="count-approved">0</span></button>
+    <button class="filter-btn" data-filter="rejected" onclick="setFilter('rejected')">Rejected <span class="filter-count" id="count-rejected">0</span></button>
+  </div>
+
+  <div id="comment-list" class="comment-list">
+    <div class="loading">Loading comments…</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SB_URL = CVOX_SUPABASE_URL;
+const SB_KEY = CVOX_SUPABASE_ANON_KEY;
+
+async function sbFetch(path, opts = {}) {
+  const res = await fetch(SB_URL + '/rest/v1/' + path, {
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': opts.prefer || 'return=representation',
+      ...(opts.headers || {}),
+    },
+    ...opts,
+  });
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+let allComments = [];
+let currentFilter = 'all';
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) +
+         ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+  render();
+}
+
+function updateCounts() {
+  const counts = { all: allComments.length, pending: 0, approved: 0, rejected: 0 };
+  allComments.forEach(c => { if (counts[c.status] !== undefined) counts[c.status]++; });
+  Object.keys(counts).forEach(k => {
+    const el = document.getElementById('count-' + k);
+    if (el) el.textContent = counts[k];
+  });
+}
+
+function render() {
+  const list = document.getElementById('comment-list');
+  const filtered = currentFilter === 'all' ? allComments : allComments.filter(c => c.status === currentFilter);
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty-state">No comments here yet.</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(c => `
+    <div class="comment-card status-${c.status}" id="card-${c.id}">
+      <div class="comment-meta">
+        <span class="comment-author">${c.author_name}</span>
+        <span class="comment-date">${formatDate(c.created_at)}</span>
+        <span class="comment-block">${c.block_label || c.block_id}</span>
+        <span class="status-badge ${c.status}">${c.status}</span>
+      </div>
+      <div class="comment-content">${c.content}</div>
+
+      ${(c.comment_replies || []).length > 0 ? `
+        <div class="reply-list">
+          ${c.comment_replies.map(r => `
+            <div class="reply-item">
+              <div class="reply-meta">Team reply · ${formatDate(r.created_at)}</div>
+              ${r.content}
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      <div class="reply-form" id="reply-form-${c.id}" style="display:none;">
+        <textarea class="reply-textarea" id="reply-text-${c.id}" placeholder="Write your reply…"></textarea>
+        <button class="action-btn btn-reply" onclick="submitReply('${c.id}')">Send reply</button>
+      </div>
+
+      <div class="comment-actions">
+        <button class="action-btn btn-reply" onclick="toggleReply('${c.id}')">Reply</button>
+        <button class="action-btn btn-approve" onclick="setStatus('${c.id}', 'approved')" ${c.status === 'approved' ? 'disabled' : ''}>Approve</button>
+        <button class="action-btn btn-reject" onclick="setStatus('${c.id}', 'rejected')" ${c.status === 'rejected' ? 'disabled' : ''}>Reject</button>
+        <button class="action-btn btn-pending" onclick="setStatus('${c.id}', 'pending')" ${c.status === 'pending' ? 'disabled' : ''}>Pending</button>
+        <a class="action-btn btn-view" href="index.html?highlight=${encodeURIComponent(c.block_id)}" target="_blank">View in guide →</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleReply(id) {
+  const form = document.getElementById('reply-form-' + id);
+  if (form) {
+    const isVisible = form.style.display !== 'none';
+    form.style.display = isVisible ? 'none' : 'block';
+    if (!isVisible) form.querySelector('textarea').focus();
+  }
+}
+
+async function submitReply(commentId) {
+  const textarea = document.getElementById('reply-text-' + commentId);
+  const text = textarea?.value.trim();
+  if (!text) return;
+
+  try {
+    await sbFetch('comment_replies', {
+      method: 'POST',
+      prefer: 'return=representation',
+      body: JSON.stringify({ comment_id: commentId, content: text }),
+    });
+    showToast('Reply sent.');
+    await loadComments();
+  } catch (e) {
+    showToast('Error sending reply.');
+  }
+}
+
+async function setStatus(commentId, status) {
+  try {
+    await sbFetch('comments?id=eq.' + commentId, {
+      method: 'PATCH',
+      prefer: 'return=representation',
+      body: JSON.stringify({ status }),
+    });
+    const c = allComments.find(x => x.id === commentId);
+    if (c) c.status = status;
+    updateCounts();
+    render();
+    showToast('Status updated to ' + status + '.');
+  } catch (e) {
+    showToast('Error updating status.');
+  }
+}
+
+async function loadComments() {
+  try {
+    const data = await sbFetch('comments?order=created_at.desc&select=*,comment_replies(*)');
+    allComments = data || [];
+    updateCounts();
+    render();
+  } catch (e) {
+    document.getElementById('comment-list').innerHTML =
+      '<div class="empty-state">Could not load comments. Check your Supabase connection.</div>';
+  }
+}
+
+loadComments();
+</script>
+</body>
+</html>
