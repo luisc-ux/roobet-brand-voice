@@ -1,287 +1,268 @@
-/* ═══════════════════════════════════════════════════════════
-   ROOBET BRAND VOICE — COMMENT SYSTEM
-   Depends on: config.js (CVOX_SUPABASE_URL, CVOX_SUPABASE_ANON_KEY)
-═══════════════════════════════════════════════════════════ */
+/* ── COMMENT TRIGGER ICON ── */
+.cvox-block {
+  position: relative;
+}
 
-(function () {
-  'use strict';
+.cvox-trigger {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.25);
+  color: rgba(201,168,76,0.5);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s, color 0.2s;
+  z-index: 10;
+  line-height: 1;
+}
 
-  /* ── SUPABASE CLIENT ── */
-  const SB_URL = CVOX_SUPABASE_URL;
-  const SB_KEY = CVOX_SUPABASE_ANON_KEY;
+.cvox-block:hover .cvox-trigger {
+  opacity: 1;
+}
 
-  async function sbFetch(path, opts = {}) {
-    const res = await fetch(SB_URL + '/rest/v1/' + path, {
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': 'Bearer ' + SB_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': opts.prefer || 'return=representation',
-        ...opts.headers,
-      },
-      ...opts,
-    });
-    if (!res.ok) {
-      const err = await res.text();
-      throw new Error(err);
-    }
-    const text = await res.text();
-    return text ? JSON.parse(text) : null;
-  }
+.cvox-trigger:hover {
+  background: rgba(201,168,76,0.25);
+  color: #C9A84C;
+}
 
-  async function getComments(blockId) {
-    return sbFetch('comments?block_id=eq.' + encodeURIComponent(blockId) + '&order=created_at.asc&select=*,comment_replies(*)');
-  }
+.cvox-trigger.has-comments {
+  opacity: 1;
+  background: rgba(201,168,76,0.18);
+  color: #C9A84C;
+}
 
-  async function getAllBlockCounts() {
-    const rows = await sbFetch('comments?select=block_id&status=neq.rejected');
-    const counts = {};
-    (rows || []).forEach(r => {
-      counts[r.block_id] = (counts[r.block_id] || 0) + 1;
-    });
-    return counts;
-  }
+.cvox-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #C9A84C;
+  color: #0E0120;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
 
-  async function postComment(blockId, blockLabel, authorName, text) {
-    return sbFetch('comments', {
-      method: 'POST',
-      prefer: 'return=representation',
-      body: JSON.stringify({
-        block_id: blockId,
-        block_label: blockLabel,
-        author_name: authorName,
-        content: text,
-        status: 'pending',
-      }),
-    });
-  }
+/* ── HIGHLIGHT when coming from review panel ── */
+.cvox-block.cvox-highlighted {
+  outline: 2px solid #C9A84C;
+  outline-offset: 3px;
+  animation: cvoxPulse 1.5s ease 2;
+}
 
-  /* ── BLOCK IDENTIFICATION ── */
-  const BLOCK_SELECTORS = [
-    { sel: '.principle',       label: el => el.querySelector('.principle-title')?.textContent?.trim() || 'Principle' },
-    { sel: '.tone-card',       label: el => el.querySelector('.tone-card-label')?.textContent?.trim() || 'Tone card' },
-    { sel: '.channel-content', label: el => el.querySelector('.channel-content-title')?.textContent?.trim() || 'Channel' },
-    { sel: '.inspo-card',      label: el => el.querySelector('.inspo-brand')?.textContent?.trim() || 'Inspiration' },
-    { sel: '.feedback-type',   label: el => el.querySelector('h3')?.textContent?.trim() || 'Feedback type' },
-    { sel: '.avoid-row',       label: el => el.querySelector('.avoid-bad')?.textContent?.trim() || 'Avoid' },
-    { sel: 'li.checklist-item',label: el => el.querySelector('span')?.textContent?.trim().slice(0, 60) || 'Checklist item' },
-    { sel: '.lang-rule',       label: el => el.querySelector('.lang-rule-title')?.textContent?.trim() || 'Language rule' },
-    { sel: 'table.compare-table tbody tr', label: el => el.querySelector('td')?.textContent?.trim().slice(0, 40) || 'Table row' },
-  ];
+@keyframes cvoxPulse {
+  0%, 100% { outline-color: rgba(201,168,76,0.3); }
+  50%       { outline-color: #C9A84C; }
+}
 
-  function labelFor(el) {
-    for (const { sel, label } of BLOCK_SELECTORS) {
-      if (el.matches(sel)) return label(el);
-    }
-    return el.textContent?.trim().slice(0, 60) || 'Block';
-  }
+/* ── MODAL OVERLAY ── */
+.cvox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14,1,32,0.85);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
 
-  function idFor(el, idx) {
-    // Prefer a stable ID based on section + label
-    const section = el.closest('section')?.id || 'doc';
-    const label = labelFor(el).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
-    return `${section}__${label}__${idx}`;
-  }
+.cvox-overlay.cvox-open {
+  opacity: 1;
+}
 
-  function collectBlocks() {
-    const seen = new Set();
-    const blocks = [];
+/* ── MODAL BOX ── */
+.cvox-modal {
+  background: #160328;
+  border: 1px solid rgba(201,168,76,0.25);
+  width: 100%;
+  max-width: 520px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 32px;
+  transform: translateY(16px);
+  transition: transform 0.2s;
+}
 
-    BLOCK_SELECTORS.forEach(({ sel }) => {
-      document.querySelectorAll(sel).forEach(el => {
-        if (!seen.has(el)) {
-          seen.add(el);
-          blocks.push(el);
-        }
-      });
-    });
+.cvox-overlay.cvox-open .cvox-modal {
+  transform: translateY(0);
+}
 
-    // Fallback: find card-like containers not already tagged
-    document.querySelectorAll('[style*="background:var(--white-faint)"], [style*="background:var(--purple-card)"], .loc-rule-pill, .loc-rule-card, .spanish-rule, .lang-rule').forEach(el => {
-      if (!seen.has(el) && el.textContent.trim().length > 20) {
-        seen.add(el);
-        blocks.push(el);
-      }
-    });
+.cvox-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
 
-    return blocks;
-  }
+.cvox-modal-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C9A84C;
+}
 
-  /* ── UI HELPERS ── */
-  function showToast(msg) {
-    let t = document.querySelector('.cvox-toast');
-    if (!t) {
-      t = document.createElement('div');
-      t.className = 'cvox-toast';
-      document.body.appendChild(t);
-    }
-    t.textContent = msg;
-    t.classList.add('cvox-show');
-    setTimeout(() => t.classList.remove('cvox-show'), 2800);
-  }
+.cvox-modal-block-label {
+  font-size: 13px;
+  color: rgba(245,242,236,0.5);
+  margin-top: 4px;
+  line-height: 1.4;
+  max-width: 380px;
+}
 
-  function formatDate(iso) {
-    const d = new Date(iso);
-    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) +
-           ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-  }
+.cvox-modal-close {
+  background: none;
+  border: none;
+  color: rgba(245,242,236,0.4);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
 
-  /* ── MODAL ── */
-  let overlay = null;
+.cvox-modal-close:hover { color: #F5F2EC; }
 
-  function buildOverlay() {
-    overlay = document.createElement('div');
-    overlay.className = 'cvox-overlay';
-    overlay.innerHTML = '<div class="cvox-modal"></div>';
-    document.body.appendChild(overlay);
-    overlay.addEventListener('click', e => {
-      if (e.target === overlay) closeModal();
-    });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeModal();
-    });
-  }
+/* ── EXISTING COMMENTS in modal ── */
+.cvox-existing {
+  margin-bottom: 20px;
+  display: grid;
+  gap: 8px;
+}
 
-  function closeModal() {
-    if (!overlay) return;
-    overlay.classList.remove('cvox-open');
-  }
+.cvox-existing-comment {
+  padding: 12px 14px;
+  background: rgba(245,242,236,0.05);
+  border-left: 2px solid rgba(201,168,76,0.3);
+}
 
-  async function openModal(blockId, blockLabel) {
-    if (!overlay) buildOverlay();
-    const modal = overlay.querySelector('.cvox-modal');
-    modal.innerHTML = `
-      <div class="cvox-modal-header">
-        <div>
-          <div class="cvox-modal-title">Leave a comment</div>
-          <div class="cvox-modal-block-label">${blockLabel}</div>
-        </div>
-        <button class="cvox-modal-close" onclick="this.closest('.cvox-overlay').classList.remove('cvox-open')">✕</button>
-      </div>
-      <div class="cvox-existing" id="cvox-existing-list">
-        <div style="font-size:13px;color:rgba(245,242,236,0.35);font-style:italic;">Loading comments…</div>
-      </div>
-      <div class="cvox-divider"></div>
-      <label class="cvox-form-label">Your name</label>
-      <input class="cvox-input" id="cvox-name" placeholder="e.g. Natalia" autocomplete="off" />
-      <label class="cvox-form-label">Comment</label>
-      <textarea class="cvox-textarea" id="cvox-text" placeholder="What would you change or flag here?"></textarea>
-      <button class="cvox-submit" id="cvox-send">Send comment</button>
-    `;
+.cvox-existing-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: rgba(245,242,236,0.35);
+  margin-bottom: 4px;
+}
 
-    overlay.classList.add('cvox-open');
+.cvox-existing-text {
+  font-size: 13px;
+  color: rgba(245,242,236,0.75);
+  line-height: 1.5;
+}
 
-    // Load existing comments
-    const list = modal.querySelector('#cvox-existing-list');
-    try {
-      const comments = await getComments(blockId);
-      if (!comments || comments.length === 0) {
-        list.innerHTML = '<div style="font-size:13px;color:rgba(245,242,236,0.3);font-style:italic;">No comments yet.</div>';
-      } else {
-        list.innerHTML = comments.map(c => `
-          <div class="cvox-existing-comment">
-            <div class="cvox-existing-meta">${c.author_name} · ${formatDate(c.created_at)} · <span style="text-transform:uppercase;letter-spacing:1px;font-size:9px;color:${c.status === 'approved' ? '#52C887' : c.status === 'rejected' ? '#E05252' : 'rgba(245,242,236,0.35)'}">${c.status}</span></div>
-            <div class="cvox-existing-text">${c.content}</div>
-            ${(c.comment_replies || []).map(r => `
-              <div class="cvox-existing-reply">
-                <div class="cvox-existing-reply-meta">Team reply · ${formatDate(r.created_at)}</div>
-                ${r.content}
-              </div>
-            `).join('')}
-          </div>
-        `).join('');
-      }
-    } catch (e) {
-      list.innerHTML = '<div style="font-size:12px;color:#E05252;">Could not load comments.</div>';
-    }
+.cvox-existing-reply {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(201,168,76,0.06);
+  border-left: 2px solid #C9A84C;
+  font-size: 12px;
+  color: rgba(245,242,236,0.6);
+  line-height: 1.5;
+}
 
-    // Submit handler
-    modal.querySelector('#cvox-send').addEventListener('click', async () => {
-      const name = modal.querySelector('#cvox-name').value.trim();
-      const text = modal.querySelector('#cvox-text').value.trim();
-      if (!name || !text) {
-        showToast('Please enter your name and comment.');
-        return;
-      }
-      const btn = modal.querySelector('#cvox-send');
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
-      try {
-        await postComment(blockId, blockLabel, name, text);
-        closeModal();
-        showToast('Comment sent. Thanks!');
-        // Update trigger counter
-        const trigger = document.querySelector(`[data-cvox-id="${blockId}"] .cvox-trigger`);
-        if (trigger) {
-          trigger.classList.add('has-comments');
-          const count = trigger.querySelector('.cvox-count');
-          if (count) count.textContent = parseInt(count.textContent || '0') + 1;
-          else {
-            const c = document.createElement('span');
-            c.className = 'cvox-count';
-            c.textContent = '1';
-            trigger.appendChild(c);
-          }
-        }
-      } catch (e) {
-        btn.disabled = false;
-        btn.textContent = 'Send comment';
-        showToast('Error sending comment. Try again.');
-      }
-    });
-  }
+.cvox-existing-reply-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(201,168,76,0.6);
+  margin-bottom: 3px;
+}
 
-  /* ── INIT ── */
-  async function init() {
-    // Load comment counts for all blocks
-    let counts = {};
-    try { counts = await getAllBlockCounts(); } catch (e) { /* silently fail */ }
+/* ── FORM ── */
+.cvox-form-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(245,242,236,0.4);
+  display: block;
+  margin-bottom: 6px;
+}
 
-    const blocks = collectBlocks();
-    blocks.forEach((el, idx) => {
-      const blockId = idFor(el, idx);
-      const blockLabel = labelFor(el);
+.cvox-input, .cvox-textarea {
+  width: 100%;
+  background: rgba(245,242,236,0.05);
+  border: 1px solid rgba(245,242,236,0.1);
+  color: #F5F2EC;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: none;
+  margin-bottom: 14px;
+}
 
-      el.classList.add('cvox-block');
-      el.setAttribute('data-cvox-id', blockId);
+.cvox-input:focus, .cvox-textarea:focus {
+  border-color: rgba(201,168,76,0.5);
+}
 
-      // Build trigger button
-      const trigger = document.createElement('button');
-      trigger.className = 'cvox-trigger';
-      trigger.title = 'Leave a comment on this block';
-      trigger.innerHTML = '💬';
+.cvox-textarea {
+  min-height: 90px;
+}
 
-      if (counts[blockId]) {
-        trigger.classList.add('has-comments');
-        const countBadge = document.createElement('span');
-        countBadge.className = 'cvox-count';
-        countBadge.textContent = counts[blockId];
-        trigger.appendChild(countBadge);
-      }
+.cvox-submit {
+  background: #C9A84C;
+  color: #0E0120;
+  border: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
 
-      trigger.addEventListener('click', e => {
-        e.stopPropagation();
-        openModal(blockId, blockLabel);
-      });
+.cvox-submit:hover { background: #E8C870; }
+.cvox-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-      el.appendChild(trigger);
-    });
+/* ── DIVIDER ── */
+.cvox-divider {
+  height: 1px;
+  background: rgba(245,242,236,0.08);
+  margin: 20px 0;
+}
 
-    // Handle highlight from review panel
-    const params = new URLSearchParams(window.location.search);
-    const highlight = params.get('highlight');
-    if (highlight) {
-      const target = document.querySelector(`[data-cvox-id="${highlight}"]`);
-      if (target) {
-        target.classList.add('cvox-highlighted');
-        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 400);
-      }
-    }
-  }
+/* ── TOAST ── */
+.cvox-toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: #C9A84C;
+  color: #0E0120;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  padding: 12px 20px;
+  z-index: 2000;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
+.cvox-toast.cvox-show {
+  opacity: 1;
+  transform: translateY(0);
+}
