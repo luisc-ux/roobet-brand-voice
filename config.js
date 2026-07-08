@@ -1,2 +1,0 @@
-const CVOX_SUPABASE_URL = 'https://jwojmllavbbambztfwzx.supabase.co';
-const CVOX_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3b2ptbGxhdmJiYW1ienRmd3p4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0MzQyMzIsImV4cCI6MjA5OTAxMDIzMn0.yAmox2iFFfnXypyMB3cjJfz481GYZ-BGXfpuYEQduE4';
