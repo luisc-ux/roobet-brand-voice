@@ -73,6 +73,12 @@
     for (const { sel, label } of BLOCK_SELECTORS) {
       if (el.matches(sel)) return label(el);
     }
+    if (el.matches('.ai-warning')) {
+      return el.querySelector('.ai-warning-title')?.textContent?.trim() || 'Warning';
+    }
+    if (el.matches('.note-block')) {
+      return el.querySelector('p')?.textContent?.trim().slice(0, 40) || 'Note';
+    }
     return el.textContent?.trim().slice(0, 60) || 'Block';
   }
 
@@ -99,6 +105,16 @@
     // Fallback: find card-like containers not already tagged
     document.querySelectorAll('[style*="background:var(--white-faint)"], [style*="background:var(--purple-card)"], .loc-rule-pill, .loc-rule-card, .spanish-rule, .lang-rule').forEach(el => {
       if (!seen.has(el) && el.textContent.trim().length > 20) {
+        seen.add(el);
+        blocks.push(el);
+      }
+    });
+
+    // Newly added areas (kept as a separate, later pass on purpose:
+    // appending here guarantees every previously-existing block keeps
+    // the exact same index, so old comments stay linked to their block).
+    document.querySelectorAll('.ai-warning, .note-block').forEach(el => {
+      if (!seen.has(el)) {
         seen.add(el);
         blocks.push(el);
       }
