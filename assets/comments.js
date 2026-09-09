@@ -79,6 +79,9 @@
     if (el.matches('.note-block')) {
       return el.querySelector('p')?.textContent?.trim().slice(0, 40) || 'Note';
     }
+      if (el.matches('.dept-voice-card')) {
+      return el.querySelector('.dept-voice-label')?.textContent?.trim() || 'Department voice';
+    }
     return el.textContent?.trim().slice(0, 60) || 'Block';
   }
 
@@ -113,7 +116,16 @@
     // Newly added areas (kept as a separate, later pass on purpose:
     // appending here guarantees every previously-existing block keeps
     // the exact same index, so old comments stay linked to their block).
-    document.querySelectorAll('.ai-warning, .note-block').forEach(el => {
+   document.querySelectorAll('.ai-warning, .note-block').forEach(el => {
+      if (!seen.has(el)) {
+        seen.add(el);
+        blocks.push(el);
+      }
+    });
+
+    // Department Voice Definitions — new content, added as its own final pass
+    // so it never shifts the index of anything collected above.
+    document.querySelectorAll('.dept-voice-card').forEach(el => {
       if (!seen.has(el)) {
         seen.add(el);
         blocks.push(el);
@@ -121,7 +133,6 @@
     });
 
     return blocks;
-  }
 
   /* ── UI HELPERS ── */
   function showToast(msg) {
