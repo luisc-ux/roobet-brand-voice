@@ -1046,7 +1046,52 @@
     text-transform: uppercase;
     color: rgba(245,242,236,0.2);
   }
-
+ /* ── DEPARTMENT VOICE DEFINITIONS ── */
+  .dept-voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--white-faint);
+    margin-bottom: 40px;
+  }
+  .dept-voice-card {
+    background: #160328;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+  .dept-voice-card:hover { background: var(--purple-hover); }
+  .dept-voice-card.baseline { grid-column: 1 / -1; }
+  .dept-voice-label {
+    font-family: var(--font-display);
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .dept-voice-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    margin-bottom: 16px;
+  }
+  .dept-voice-desc { font-size: 15px; color: var(--white-dim); line-height: 1.7; }
+  .dept-voice-desc strong { color: var(--white); }
+  .dept-voice-traits { list-style: none; margin-top: 16px; display: grid; gap: 8px; }
+  .dept-voice-traits li {
+    padding: 10px 14px;
+    background: rgba(201,168,76,0.06);
+    border-left: 2px solid var(--gold);
+    font-size: 13px;
+    color: var(--white);
+    line-height: 1.5;
+  }
+  .dept-voice-note { padding: 28px 32px; border: 1px dashed rgba(245,242,236,0.2); margin-top: 8px; }
+  .dept-voice-note p { font-size: 14px; color: var(--white-dim); line-height: 1.7; }
+  @media (max-width: 900px) { .dept-voice-grid { grid-template-columns: 1fr; } }
   @media (max-width: 900px) {
     .loc-general-rules { grid-template-columns: 1fr; }
     .lang-rules-grid { grid-template-columns: 1fr; }
