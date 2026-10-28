@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roobet · Brand Voice Manual</title>
+<style>
+:root{
+  --bg:#150d26; --bg2:#1d1236; --card:#241845; --card2:#2c1f52; --line:#3a2c66;
+  --gold:#f4b942; --gold-soft:#f4b94226; --text:#f3eefc; --muted:#b8aed3; --good:#7fe0a8; --bad:#ff8f8f;
+  --radius:14px; --maxw:980px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{background:var(--bg);color:var(--text);font:16px/1.55 "Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--gold)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+/* NAV */
+nav.top{position:sticky;top:0;z-index:50;background:#150d26ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+nav.top .logo{font-weight:900;letter-spacing:.12em;color:var(--gold);margin-right:10px;flex:none}
+nav.top .wrap{max-width:1120px}
+nav.top a{flex:none;text-decoration:none;color:var(--muted);font-size:13px;padding:6px 9px;border-radius:99px;border:1px solid transparent}
+nav.top a:hover{color:var(--text);border-color:var(--line)}
+nav.top .spacer{flex:1}
+nav.top button{flex:none;background:none;border:1px solid var(--line);color:var(--muted);font-size:12px;padding:6px 11px;border-radius:99px;cursor:pointer}
+nav.top button:hover{color:var(--text)}
+
+/* HERO */
+.hero{padding:44px 0 26px}
+.kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.hero h1{font-size:clamp(34px,6vw,54px);line-height:1.05;margin:8px 0 12px;font-weight:900;letter-spacing:-.02em}
+.hero p.std{color:var(--muted);font-size:17px;max-width:620px}
+.hero p.std b{color:var(--text);font-weight:600}
+
+/* SECTIONS */
+section{padding:30px 0 6px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-head .n{color:var(--gold);font-weight:800;font-size:13px;letter-spacing:.12em}
+.sec-head h2{font-size:26px;letter-spacing:-.01em;font-weight:800}
+.lede{color:var(--muted);margin-bottom:16px;max-width:680px}
+
+/* PRINCIPLES */
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.pr{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+.pr h3{font-size:15px;font-weight:800}
+.pr h3 em{font-style:normal;color:var(--muted);font-weight:500}
+.pr p{font-size:14px;color:var(--muted);margin:4px 0 8px}
+.ba{font-size:13px;line-height:1.4;border-top:1px dashed var(--line);padding-top:8px}
+.ba span{display:block}
+.ba .b{color:var(--bad);opacity:.85}
+.ba .a{color:var(--good);margin-top:2px}
+.ba i{font-style:normal;font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.75;margin-right:6px}
+
+.edge{margin-top:12px;background:var(--gold-soft);border:1px solid #f4b94255;border-radius:var(--radius);padding:14px 18px}
+.edge b{color:var(--gold)}
+
+/* ACCORDIONS */
+details.acc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-top:10px;overflow:hidden}
+details.acc>summary{list-style:none;cursor:pointer;padding:13px 18px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+details.acc>summary::-webkit-details-marker{display:none}
+details.acc>summary::after{content:"+";margin-left:auto;color:var(--gold);font-size:20px;font-weight:400;line-height:1}
+details.acc[open]>summary::after{content:"\2212"}
+details.acc>summary small{color:var(--muted);font-weight:400;font-size:13px}
+details.acc>summary:hover{background:var(--card2)}
+.acc-body{padding:4px 18px 18px;border-top:1px solid var(--line)}
+.acc-body>*:first-child{margin-top:14px}
+details.acc.opt>summary .tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line);color:var(--muted);padding:2px 7px;border-radius:99px;font-weight:600}
+
+/* TABS */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px}
+.tabs button{background:var(--card);border:1px solid var(--line);color:var(--muted);padding:9px 16px;border-radius:99px;cursor:pointer;font-size:14px;font-weight:600}
+.tabs button:hover{color:var(--text)}
+.tabs button[aria-selected="true"]{background:var(--gold);color:#241845;border-color:var(--gold)}
+.panel{display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+.panel.on{display:block}
+.panel h3{font-size:18px;font-weight:800;margin-bottom:2px}
+.panel .sub{color:var(--muted);font-size:14px;margin-bottom:12px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.mini{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-size:14px}
+.mini b{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.panel ul,.acc-body ul{margin:8px 0 0 18px;font-size:14.5px}
+.panel li,.acc-body li{margin:3px 0}
+.ex{margin-top:12px;display:grid;gap:8px}
+.ex .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ex .g,.ex .r{border-radius:10px;padding:9px 13px;font-size:14px}
+.ex .g{background:#ff8f8f12;border:1px solid #ff8f8f33;color:#f2c4c4}
+.ex .r{background:#7fe0a812;border:1px solid #7fe0a833;color:#cdf5de}
+.ex i{display:block;font-style:normal;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:2px}
+.quote{border-left:3px solid var(--gold);padding:4px 0 4px 14px;margin-top:12px;font-style:italic;color:var(--text)}
+.quote small{display:block;font-style:normal;color:var(--muted);font-size:12px;margin-top:2px}
+@media(max-width:620px){.ex .row{grid-template-columns:1fr}}
+
+/* LIMITS STRIP */
+.limits{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 14px}
+.limits div{flex:1 1 130px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.limits b{display:block;font-size:20px;color:var(--gold);font-weight:800;line-height:1.2}
+.limits span{font-size:12px;color:var(--muted)}
+
+/* TWO MODES */
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.mode{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.mode h3{font-size:14px;letter-spacing:.12em;color:var(--gold)}
+.mode .when{font-size:13px;color:var(--muted);margin:3px 0 10px}
+.mode p{font-size:15px;margin:3px 0}
+
+/* TWO DIALS */
+.dials{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.dial{background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px}
+.dial b{display:block;color:var(--gold);font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.dial span{font-size:15px}
+@media(max-width:620px){.dials{grid-template-columns:1fr}}
+.note{background:var(--bg2);border:1px dashed var(--line);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--muted);margin-top:12px}
+.note b{color:var(--text)}
+
+/* CHIPS / TABLE */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chips span{background:var(--bg2);border:1px solid var(--line);border-radius:99px;padding:4px 11px;font-size:13px}
+.chips.bad span{border-color:#ff8f8f44;color:#f2c4c4}
+.chips.good span{border-color:#7fe0a844;color:#cdf5de}
+table.avoid{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+table.avoid td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.avoid td:first-child{color:#f2c4c4;width:36%;font-weight:600}
+table.avoid td:last-child{color:var(--muted)}
+.h4{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:14px 0 4px}
+
+/* CHECK */
+ol.check{margin:8px 0 0 20px;font-size:15px}
+ol.check li{margin:5px 0}
+
+/* LOCALIZATIONS */
+.loc-grid{display:grid;gap:10px;margin-top:6px}
+.loc-grid details.acc{margin-top:0;background:var(--bg2)}
+.loc-grid .term{display:grid;grid-template-columns:150px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.loc-grid .term b{color:var(--gold)}
+@media(max-width:620px){.loc-grid .term{grid-template-columns:1fr;gap:2px}}
+code{background:#00000040;padding:1px 6px;border-radius:5px;font-size:.92em}
+
+footer{margin-top:44px;border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+
+/* COLLAPSIBLE SECTIONS */
+section{padding:0}
+main.wrap{padding-bottom:10px}
+details.sec{border-bottom:1px solid var(--line)}
+details.sec>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:14px;padding:20px 4px}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary .n{color:var(--gold);font-weight:800;font-size:13px;letter-spacing:.12em;flex:none;width:24px}
+details.sec>summary h2{font-size:24px;font-weight:800;letter-spacing:-.01em;flex:none}
+details.sec>summary .sum{color:var(--muted);font-size:14px;margin-left:4px;flex:1;min-width:0}
+details.sec>summary::after{content:"+";color:var(--gold);font-size:26px;font-weight:300;line-height:1;margin-left:auto;flex:none}
+details.sec[open]>summary::after{content:"\2212"}
+details.sec>summary:hover h2{color:var(--gold)}
+details.sec[open]>summary .sum{display:none}
+.sec-inner{padding:2px 0 28px}
+@media(max-width:620px){details.sec>summary .sum{display:none}details.sec>summary h2{font-size:21px}}
+.hero{padding-bottom:18px}
+
+/* COMMENTS (assets/comments.js) */
+.cvox-block{position:relative}
+.cvox-host{position:relative}
+.cvox-trigger{position:absolute;top:6px;right:6px;min-width:26px;height:26px;padding:0 6px;border-radius:99px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:12px;line-height:1;cursor:pointer;opacity:.4;transition:opacity .15s;z-index:5;display:inline-flex;align-items:center;justify-content:center;gap:4px}
+.cvox-host:hover>.cvox-trigger,.cvox-trigger:focus,.cvox-trigger.has-comments{opacity:1}
+.cvox-trigger.has-comments{border-color:var(--gold)}
+.cvox-count{font-size:11px;font-weight:700;color:var(--gold)}
+.cvox-hint,.cvox-off{display:none;color:var(--muted);font-size:13px;margin-top:10px}
+body.cvox-on .cvox-hint{display:block}
+.cvox-off.show{display:block}
+.cvox-highlighted{outline:2px solid var(--gold);outline-offset:4px;border-radius:10px}
+.cvox-overlay{position:fixed;inset:0;background:#0b0618cc;display:none;align-items:center;justify-content:center;z-index:200;padding:16px}
+.cvox-overlay.cvox-open{display:flex}
+.cvox-modal{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);width:100%;max-width:520px;max-height:88vh;overflow:auto;padding:20px}
+.cvox-modal-header{display:flex;justify-content:space-between;gap:12px;margin-bottom:12px}
+.cvox-modal-title{font-weight:800;font-size:18px}
+.cvox-modal-block-label{color:var(--gold);font-size:13px;margin-top:2px}
+.cvox-modal-close{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;align-self:flex-start}
+.cvox-existing{display:grid;gap:8px;max-height:200px;overflow:auto}
+.cvox-muted{color:var(--muted);font-style:italic;font-size:13px}
+.cvox-error{color:var(--bad);font-size:13px}
+.cvox-existing-comment{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:14px}
+.cvox-existing-meta{font-size:12px;color:var(--muted);margin-bottom:3px}
+.cvox-status{text-transform:uppercase;letter-spacing:.1em;font-size:10px}
+.cvox-status-approved{color:var(--good)}.cvox-status-rejected{color:var(--bad)}
+.cvox-existing-reply{margin-top:6px;padding-left:10px;border-left:2px solid var(--gold);font-size:13px}
+.cvox-existing-reply-meta{font-size:11px;color:var(--gold)}
+.cvox-divider{height:1px;background:var(--line);margin:14px 0}
+.cvox-form-label{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:10px 0 4px}
+.cvox-input,.cvox-textarea{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px 12px;font:inherit;font-size:14px}
+.cvox-textarea{min-height:90px;resize:vertical}
+.cvox-submit{margin-top:12px;background:var(--gold);color:#241845;border:none;border-radius:99px;padding:10px 20px;font-weight:700;cursor:pointer}
+.cvox-submit:disabled{opacity:.6}
+.cvox-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card2);border:1px solid var(--gold);color:var(--text);padding:10px 18px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:all .25s;z-index:300}
+.cvox-toast.cvox-show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <span class="logo">ROOBET</span>
+    <a href="#voice">Voice</a>
+    <a href="#departments">Departments</a>
+    <a href="#journey">Player journey</a>
+    <a href="#channels">Channels</a>
+    <a href="#rules">Rules</a>
+    <a href="#deliverability">Deliverability</a>
+    <a href="#brands">Brands</a>
+    <a href="#writers">For writers</a>
+    <a href="#localizations">Localizations</a>
+    <span class="spacer"></span>
+    <button id="toggleAll" type="button">Expand all</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Brand Voice &amp; Copy Manual · 2026</div>
+    <h1>One voice.<br>Different volumes.</h1>
+    <p class="std"><b>If it could have been written by a competitor, it's not good enough.</b><br>Read the brief, clarify with the requestor, and make the copy unique and right for the <b>department</b> and the <b>player journey stage</b>.</p>
+    <p class="cvox-hint">Something to change or flag? Click the 💬 on any block to leave a comment.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- 01 VOICE -->
+<section id="voice">
+<details class="sec">
+<summary><span class="n">01</span><h2>The voice</h2><span class="sum">Five principles, two tone modes</span></summary>
+<div class="sec-inner">
+  <p class="lede">Five writing decisions. Each says what to do and what not to do.</p>
+
+  <div class="principles">
+    <div class="pr">
+      <h3>SHORT, <em>not padded</em></h3>
+      <p>Lead with the point. If it can be one sentence, make it one.</p>
+      <div class="ba"><span class="b"><i>Not</i>Don't forget, you have funds waiting in your account!</span><span class="a"><i>Yes</i>Your balance is just sitting there. UCL kicks off in an hour.</span></div>
+    </div>
+    <div class="pr">
+      <h3>LOUD, <em>not yelling</em></h3>
+      <p>Energy comes from what you say, not from !! or caps. One exclamation point per piece, max.</p>
+      <div class="ba"><span class="b"><i>Not</i>DON'T MISS OUT!! Huge rewards are waiting RIGHT NOW!!!</span><span class="a"><i>Yes</i>$30,000. Three games. The leaderboard closes Sunday.</span></div>
+    </div>
+    <div class="pr">
+      <h3>SHARP, <em>not smug</em></h3>
+      <p>The reader is always in on the joke. Not playing never feels like failing.</p>
+      <div class="ba"><span class="b"><i>Not</i>Only smart players are taking advantage of this.</span><span class="a"><i>Yes</i>Zeus built a roulette table. It's unhinged.</span></div>
+    </div>
+    <div class="pr">
+      <h3>REAL, <em>not performative</em></h3>
+      <p>No forced slang, no trend-chasing. Copy travels, so no single-market references.</p>
+      <div class="ba"><span class="b"><i>Not</i>No cap bestie, this promo is absolutely fire fr fr</span><span class="a"><i>Yes</i>Crash just hit 1000x. Someone was in it.</span></div>
+    </div>
+    <div class="pr">
+      <h3>BOLD, <em>not reckless</em></h3>
+      <p>We hype the win and never mock the miss. Responsible language always.</p>
+      <div class="ba"><span class="b"><i>Not</i>Losers don't take chances. Winners do.</span><span class="a"><i>Yes</i>One winner goes to Monaco. The leaderboard is open.</span></div>
+    </div>
+    <div class="pr" style="background:var(--gold-soft);border-color:#f4b94255">
+      <h3>ON THE EDGE</h3>
+      <p style="color:var(--text)">We can live close to the line. The test: does the line still work without the wink? Yes, keep it. Only works as innuendo, cut it. Never aimed at the player.</p>
+    </div>
+  </div>
+
+  <details class="acc" style="margin-top:12px">
+    <summary>Where the edge works, and where it doesn't</summary>
+    <div class="acc-body">
+      <div class="cols">
+        <div class="mini"><b>Works</b>CRM body copy and onsite inbox (the player is already in). Sports and game campaigns (competition carries it).</div>
+        <div class="mini"><b>Careful</b>Subject lines: only if the rest of the email makes it land.</div>
+        <div class="mini"><b>Not here</b>Welcome emails and ACQ (too early). Anything that could read as punching at the player.</div>
+      </div>
+    </div>
+  </details>
+
+  <div class="h4" style="margin-top:22px">Two tone modes</div>
+  <div class="modes">
+    <div class="mode">
+      <h3>CONTROLLED PLAYFUL</h3>
+      <div class="when">Promos, new games, network promotions</div>
+      <p>"Zeus built a roulette table. It's unhinged."</p>
+      <p>"Crash just hit 1000x. Someone was in it."</p>
+      <p>"Four ways to play. Dare to play them all."</p>
+    </div>
+    <div class="mode">
+      <h3>QUIET CONFIDENCE</h3>
+      <div class="when">Onboarding, retention, reward confirmation, bespoke VIP gifts</div>
+      <p>"It's already in your account. Use it."</p>
+      <p>"Your balance is ready. The match isn't."</p>
+      <p>"Your account's been quiet. We put something in it."</p>
+    </div>
+  </div>
+  <p class="lede" style="margin-top:10px;font-size:14px">Departments and journey stages decide which mode, and how loud. Never both at once.</p>
+</div>
+</details>
+</section>
+
+<!-- 02 DEPARTMENTS -->
+<section id="departments">
+<details class="sec">
+<summary><span class="n">02</span><h2>Departments</h2><span class="sum">Casino, Sportsbook, VIP, ACQ, Legal</span></summary>
+<div class="sec-inner">
+  <p class="lede">The same voice, dialed per department. Casino is the baseline. The list can grow and each definition can be refined.</p>
+
+  <div class="tabs" role="tablist" data-group="dept">
+    <button role="tab" aria-selected="true" data-t="d-casino">Casino</button>
+    <button role="tab" aria-selected="false" data-t="d-spb">Sportsbook</button>
+    <button role="tab" aria-selected="false" data-t="d-vip">VIP</button>
+    <button role="tab" aria-selected="false" data-t="d-acq">ACQ</button>
+    <button role="tab" aria-selected="false" data-t="d-legal">Legal</button>
+  </div>
+
+  <div class="panel on" id="d-casino" data-group="dept">
+    <h3>Casino <span style="color:var(--gold);font-size:12px;letter-spacing:.12em">· BASELINE</span></h3>
+    <div class="sub">Full volume. The reference point for every other department.</div>
+    <p>Sharp, quick, witty, a little cheeky. Game-themed jokes and wordplay land here more naturally than anywhere else. Confident without smugness: hypes the win, never mocks the miss.</p>
+    <ul><li>Length and mechanic detail depend on the piece, not the department. Casino can be short and personal too.</li></ul>
+    <div class="quote">"Minted Mike is ready to ink the city."<small>Personifies the game</small></div>
+    <div class="quote">"Watch the plane collect the multipliers."<small>Aviamasters, framed as a literal flight</small></div>
+  </div>
+
+  <div class="panel" id="d-spb" data-group="dept">
+    <h3>Sportsbook</h3>
+    <div class="sub">Casino's precision, aimed at the match. Playful but controlled.</div>
+    <div class="cols">
+      <div class="mini"><b>Reward-forward</b>Lead with what the player gets, even when the mechanic is about a loss. "Doesn't have to cost you your bet", never "if you lose".</div>
+      <div class="mini"><b>Mechanic precision</b>Real money sits on literal rules (minute 86, a 1X2 market, odds thresholds). Spell them out plainly and exactly.</div>
+    </div>
+    <div class="quote">"One goal in the final minutes doesn't have to cost you your bet."<small>Late Goal Insurance</small></div>
+  </div>
+
+  <div class="panel" id="d-vip" data-group="dept">
+    <h3>VIP</h3>
+    <div class="sub">More personal, fewer emojis, never mass-market in tone.</div>
+    <div class="cols">
+      <div class="mini"><b>Visual restraint</b>Fewer emojis, no doubled exclamation points.</div>
+      <div class="mini"><b>Economy of language</b>Shorter. Trust the reward to carry it.</div>
+      <div class="mini"><b>Elevated vocabulary</b>Warm, without Casino's internet slang.</div>
+      <div class="mini"><b>Personal framing</b>Reads like it's from someone who knows you.</div>
+    </div>
+    <div class="h4">Two modes</div>
+    <ul>
+      <li><b>Structured promos</b> (leaderboards, tiers, opt-in): full Casino energy, with VIP status called out clearly.</li>
+      <li><b>Bespoke gifts:</b> curiosity-driven, minimal, no mechanics. This is where Quiet Confidence lives.</li>
+    </ul>
+    <div class="note">Status can be named when it helps ("as one of our VIPs"), but the four traits carry the feeling, not the label.</div>
+  </div>
+
+  <div class="panel" id="d-acq" data-group="dept">
+    <h3>ACQ</h3>
+    <div class="sub">Casino, softened for someone who may not know Roobet yet.</div>
+    <div class="cols">
+      <div class="mini"><b>Player-facing</b>Second person, warm, accessible, no platform knowledge assumed. Slogan plus a specific promise, never slogan alone.</div>
+      <div class="mini"><b>Affiliate content</b>Third person ("players can..."). Describes, doesn't sell. Mechanics woven into each promo, closings that inform rather than pitch.</div>
+    </div>
+    <div class="quote">"Players can back the tournament winner before the competition starts and get covered if their pick finishes in the top three."<small>Affiliate content: factual, describes the mechanic clearly</small></div>
+  </div>
+
+  <div class="panel" id="d-legal" data-group="dept">
+    <h3>Legal</h3>
+    <div class="sub">Accuracy over voice, on purpose.</div>
+    <p>This isn't "personality off". The job is accuracy: every term checked against current legal and regulatory English before it is translated. No creative liberties, no persuasive framing, no innuendo. Precision is what makes it on-brand here, the way wit does for Casino.</p>
+  </div>
+</div>
+</details>
+</section>
+
+<!-- 03 JOURNEY -->
+<section id="journey">
+<details class="sec">
+<summary><span class="n">03</span><h2>Player journey</h2><span class="sum">New, Active, VIP, Lapsed, Churned</span></summary>
+<div class="sec-inner">
+  <p class="lede">The second dial. Where a player is in their journey shapes how loud and how familiar we sound, in any department.</p>
+
+  <div class="dials">
+    <div class="dial"><b>Department</b><span>How do we write this? What we say.</span></div>
+    <div class="dial"><b>Journey stage</b><span>Who is this player? How loud, how familiar.</span></div>
+  </div>
+
+  <div class="tabs" role="tablist" data-group="stage">
+    <button role="tab" aria-selected="true" data-t="s-new">New</button>
+    <button role="tab" aria-selected="false" data-t="s-active">Active</button>
+    <button role="tab" aria-selected="false" data-t="s-vip">VIP</button>
+    <button role="tab" aria-selected="false" data-t="s-lapsed">Lapsed</button>
+    <button role="tab" aria-selected="false" data-t="s-churned">Churned</button>
+  </div>
+
+  <div class="panel on" id="s-new" data-group="stage">
+    <h3>New</h3><div class="sub">First days on the platform.</div>
+    <div class="cols">
+      <div class="mini"><b>Energy</b>Moderate, welcoming</div>
+      <div class="mini"><b>Familiarity</b>Zero assumed. Help them find their footing.</div>
+      <div class="mini"><b>Avoid</b>Insider slang, front-loaded mechanics</div>
+    </div>
+    <div class="note"><b>New to Roobet, or new to casinos?</b> Many new players already know the world from other platforms. Default: they know casino basics but not Roobet, so guide them around the platform without over-explaining the games. If the brief says first-time players, step back further.</div>
+  </div>
+  <div class="panel" id="s-active" data-group="stage">
+    <h3>Active</h3><div class="sub">Regular players.</div>
+    <div class="cols">
+      <div class="mini"><b>Energy</b>Full department voice</div>
+      <div class="mini"><b>Familiarity</b>Returning, comfortable. Lead with the prize or the moment, skip the intro.</div>
+      <div class="mini"><b>Avoid</b>Re-explaining the basics</div>
+    </div>
+  </div>
+  <div class="panel" id="s-vip" data-group="stage">
+    <h3>VIP</h3><div class="sub">High-value players. This is the player stage, not the department.</div>
+    <div class="cols">
+      <div class="mini"><b>Energy</b>Restrained, personal. Premium feel.</div>
+      <div class="mini"><b>Familiarity</b>Deep. They expect to be recognized.</div>
+      <div class="mini"><b>Avoid</b>Generic segment language, mass-market tone</div>
+    </div>
+    <div class="note"><b>VIP means two things.</b> The VIP <i>department</i> is a voice. The VIP <i>stage</i> is a player. They overlap (a VIP player still bets on sports), so briefs and copy always name which one is meant.</div>
+  </div>
+  <div class="panel" id="s-lapsed" data-group="stage">
+    <h3>Lapsed</h3><div class="sub">Players who've gone quiet.</div>
+    <div class="cols">
+      <div class="mini"><b>Energy</b>Quieter, direct</div>
+      <div class="mini"><b>Familiarity</b>Acknowledge the gap without making it awkward. Lead with what's waiting for them.</div>
+      <div class="mini"><b>Avoid</b>Guilt-tripping, vague "we miss you"</div>
+    </div>
+  </div>
+  <div class="panel" id="s-churned" data-group="stage">
+    <h3>Churned</h3><div class="sub">Players who've left.</div>
+    <div class="cols">
+      <div class="mini"><b>Energy</b>Low-key, careful</div>
+      <div class="mini"><b>Familiarity</b>Respect the exit. Don't guess why they left. One specific reason to come back.</div>
+      <div class="mini"><b>Avoid</b>Pressure, over-selling the return</div>
+    </div>
+  </div>
+
+  <div class="note"><b>Combining the dials:</b> a VIP-department piece for a New player stays quietly confident but guided, without assuming VIP history. A Casino piece for a New player and one for a Lapsed player should never read the same.</div>
+</div>
+</details>
+</section>
+
+<!-- 04 CHANNELS -->
+<section id="channels">
+<details class="sec">
+<summary><span class="n">04</span><h2>Copy by channel</h2><span class="sum">Limits and rules for every asset</span></summary>
+<div class="sec-inner">
+  <p class="lede">Constraints are the brief. The email teases, the landing page carries the full detail.</p>
+
+  <div class="limits">
+    <div><b>~50</b><span>Subject line</span></div>
+    <div><b>~85</b><span>Preheader</span></div>
+    <div><b>26</b><span>LP title (max)</span></div>
+    <div><b>39 to 42</b><span>LP subtitle</span></div>
+    <div><b>180</b><span>Onsite body (max)</span></div>
+  </div>
+
+  <div class="tabs" role="tablist" data-group="chan">
+    <button role="tab" aria-selected="true" data-t="c-sl">Subject</button>
+    <button role="tab" aria-selected="false" data-t="c-ph">Preheader</button>
+    <button role="tab" aria-selected="false" data-t="c-body">Email body</button>
+    <button role="tab" aria-selected="false" data-t="c-lp">Landing page</button>
+    <button role="tab" aria-selected="false" data-t="c-on">Onsite</button>
+  </div>
+
+  <div class="panel on" id="c-sl" data-group="chan">
+    <h3>Subject line</h3><div class="sub">About 50 characters on mobile.</div>
+    <ul>
+      <li>Hook in the first 4 to 6 words. Lead with the tension, the moment or the game, never the campaign name.</li>
+      <li>No exclamation point. One emoji maximum (testing showed no deliverability issue with one).</li>
+      <li>No dollar amounts, % figures or filter-trigger words. <a href="#deliverability">See Deliverability</a>.</li>
+      <li>Username token is welcome, but it sits next to a real hook, never replaces one.</li>
+    </ul>
+    <div class="ex">
+      <div class="row"><div class="g"><i>Generic</i>Don't Miss Our Latest Promotion!</div><div class="r"><i>Roobet</i>Minted Mike is ready to ink the city</div></div>
+      <div class="row"><div class="g"><i>Generic</i>Zeus Blackjack Is Now Available For You!</div><div class="r"><i>Roobet</i>Zeus built a roulette table. It's unhinged. ⚡</div></div>
+      <div class="row"><div class="g"><i>Generic</i>Place Your Bet and Win Big This Weekend!</div><div class="r"><i>Roobet · Sportsbook</i>A late goal doesn't have to cost you your bet</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="c-ph" data-group="chan">
+    <h3>Preheader</h3><div class="sub">About 85 characters. Read alongside the subject line.</div>
+    <ul>
+      <li>The second beat: the detail that earns the hook. Never repeat the subject line.</li>
+      <li>Intrigue or a punchline. The "!" can live here, if anywhere.</li>
+      <li>No figures from the subject line moved here. <a href="#deliverability">See Deliverability</a>.</li>
+    </ul>
+    <div class="ex">
+      <div class="row"><div class="g"><i>Generic</i>Click here to find out more about this amazing offer!</div><div class="r"><i>Roobet</i>Back your pick before kickoff.</div></div>
+      <div class="row"><div class="g"><i>Generic</i>Huge rewards are waiting for you. Don't miss out!</div><div class="r"><i>Roobet</i>Wild multipliers. Lucky Numbers. A drop that pops off.</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="c-body" data-group="chan">
+    <h3>Email body</h3><div class="sub">Tease the promo, give the player a reason to click.</div>
+    <ul>
+      <li><b>No headline in the body.</b> Subject line and preheader are the opening.</li>
+      <li><b>Greeting on its own line:</b> short, says something, username at the end.</li>
+      <li><b>Body:</b> 2 to 3 short lines. Reward hook first, mechanics once. How to Play follows the first body.</li>
+      <li><b>CTA:</b> 3 words max, 2 is better. Say what's behind the click.</li>
+      <li>Amounts are fine in the body, written in full ($250,000, never $250K). Dates: Month D (November 18).</li>
+      <li>Don't stack prize figures, opt-in language and "Promotions Page" in the opening lines.</li>
+    </ul>
+    <div class="ex">
+      <div class="row"><div class="g"><i>Generic</i>Hey #username#, we have something special for you!</div><div class="r"><i>Roobet</i>It's Halloween, #user_details-username#!</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="c-lp" data-group="chan">
+    <h3>Landing page</h3><div class="sub">Full detail lives here. Titles are optimized for the carousel, where exposure is highest.</div>
+    <div class="cols">
+      <div class="mini"><b>Title · 26 max</b>Promo name if it fits, and test for cut-off. No exclamation point.</div>
+      <div class="mini"><b>Subtitle · 39 to 42</b>What, when or how at a glance. Usually ends with "!". It may truncate on the promotions page, so the carousel version leads.</div>
+      <div class="mini"><b>How to Enter</b>First bullet is Opt in, 3 bullets max, short and clear. Keep it short, and think about which details from the brief belong in the T&amp;Cs instead.</div>
+    </div>
+    <div class="ex">
+      <div class="row"><div class="g"><i>Generic · title</i>Play Our New Halloween Promo and Win Big!</div><div class="r"><i>Roobet · title</i>The Haunted Four</div></div>
+      <div class="row"><div class="g"><i>Generic · title</i>Amazing Sportsbook Offer With Free Bets!</div><div class="r"><i>Roobet · title</i>Late Goal Insurance</div></div>
+      <div class="row"><div class="g"><i>Generic · subtitle</i>Join now for a chance to earn amazing rewards!</div><div class="r"><i>Roobet · subtitle (40)</i>Seven days. Three games. One prize pool!</div></div>
+      <div class="row"><div class="g"><i>Generic · subtitle</i>Experience the thrill of our new Halloween event!</div><div class="r"><i>Roobet · subtitle (41)</i>Four ways to play. Dare to play them all!</div></div>
+    </div>
+  </div>
+
+  <div class="panel" id="c-on" data-group="chan">
+    <h3>Onsite inbox</h3><div class="sub">The image is the click. The copy builds desire.</div>
+    <ul>
+      <li>Title only, one line, no subtitle. Promo name if it fits.</li>
+      <li>Body up to 180 characters. One thought, one action.</li>
+      <li>Confirm with the stakeholder up front: desire only, or include a mechanic summary?</li>
+    </ul>
+    <div class="ex">
+      <div class="row"><div class="g"><i>Generic</i>We have a special exclusive reward just for you! Click to claim now!</div><div class="r"><i>Roobet</i>Your account's been quiet. We put something in it.</div></div>
+      <div class="row"><div class="g"><i>Generic</i>Your free bet is waiting! Don't miss this amazing opportunity to win big prizes!</div><div class="r"><i>Roobet · Late Goal Insurance</i>One goal in the final minutes doesn't have to cost you your bet. Back your match and see how it works.</div></div>
+    </div>
+  </div>
+</div>
+</details>
+</section>
+
+<!-- 05 RULES -->
+<section id="rules">
+<details class="sec">
+<summary><span class="n">05</span><h2>The rules</h2><span class="sum">Format, structure, words to avoid</span></summary>
+<div class="sec-inner">
+  <p class="lede">What applies to every piece, in every department. Open what you need.</p>
+
+  <div class="cols">
+    <div class="mini"><b>Format</b>No em dashes. One emoji max. One "!" per piece. Amounts in full ($250,000). Dates as Month D.</div>
+    <div class="mini"><b>Structure</b>Reward first: "Get X if Y", never "If Y, get X". Reward-framed, never loss-framed.</div>
+    <div class="mini"><b>Wording</b>Say "Free Bet amount", never "stake". Promo names stay in English.</div>
+    <div class="mini"><b>CTAs and fixed lines</b>2 to 3 words, strong verb first (Play Now, Claim Reward, Join In, Keep Going, Hop In). Never "Click here". The "Don't Like Fun?" unsubscribe line never changes. Welcome emails: "Crypto's Fastest Growing Casino" plus a specific promise.</div>
+    <div class="mini"><b>Feedback</b>The brief wins on facts. Direction gets interpreted: "more exciting" means more specific, not louder.</div>
+  </div>
+
+  <details class="acc opt">
+    <summary>Words and phrases to avoid <span class="tag">EN</span></summary>
+    <div class="acc-body">
+      <table class="avoid">
+        <tr><td>Don't miss out</td><td>Banned. Be specific about what they'd be missing.</td></tr>
+        <tr><td>Huge rewards await · This is your chance</td><td>Vague and generic. Use the actual number or the actual moment.</td></tr>
+        <tr><td>Amazing · incredible · seamless</td><td>Hollow adjectives. Replace with a specific fact.</td></tr>
+        <tr><td>X is here · underway · heating up · in full swing</td><td>Announcement energy. Find original phrasing.</td></tr>
+        <tr><td>Up for grabs · your share of · on the line</td><td>Tired prize language. Say what the player gets.</td></tr>
+        <tr><td>Chase</td><td>Not permitted, in CTAs or anywhere else.</td></tr>
+        <tr><td>Stake</td><td>Avoid. Use "Free Bet amount".</td></tr>
+        <tr><td>Locked (bonus)</td><td>Internal term. Just say bonus.</td></tr>
+        <tr><td>Log in (to logged-in users)</td><td>They're already in.</td></tr>
+        <tr><td>We miss you</td><td>Corporate-warm. Try "Your account's been quiet. We put something in it."</td></tr>
+        <tr><td>Exclusive offer · limited time · click here</td><td>Prove it or be specific: who it's for, "closes Sunday", what the click does.</td></tr>
+        <tr><td>WIN BIG · FREE!!! · GUARANTEED</td><td>Spam triggers.</td></tr>
+        <tr><td>Today · now · starts now</td><td>Not banned, but sparingly. They read generic.</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="acc opt">
+    <summary>Patterns to watch for <span class="tag">any draft</span></summary>
+    <div class="acc-body">
+      <ul>
+        <li>Multiple exclamation points or all-caps energy.</li>
+        <li>Longer and vaguer than the brief.</li>
+        <li>Could have been written by any casino.</li>
+        <li>Structure flipped: "If Y, get X".</li>
+        <li>Negative framing up front. Eliminations, game cuts and "X players left" never open copy.</li>
+        <li>Recycled openers, subject structures or urgency devices across rounds of a long campaign.</li>
+        <li>Prize amounts or dates that don't match across brief, landing page, email and onsite.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="acc opt">
+    <summary>What the audience responds to <span class="tag">levers</span></summary>
+    <div class="acc-body">
+      <p style="font-size:14px;color:var(--muted)">Every piece pulls at least one lever. Frame promos as something happening, not something being sold.</p>
+      <div class="chips good">
+        <span>Exclusivity</span><span>Progression</span><span>Live moments</span><span>Competition</span><span>Momentum</span><span>Scarcity</span><span>Fast feedback</span>
+      </div>
+      <div class="h4">Vocabulary that carries momentum</div>
+      <div class="chips"><span>progress</span><span>momentum</span><span>unlocking</span><span>building</span><span>climbing</span><span>extra chances</span><span>live draws</span><span>VIP access</span></div>
+      <div class="h4">They switch off from</div>
+      <div class="chips bad"><span>Press-release language</span><span>"Spin to win"</span><span>Overexplained mechanics</span><span>Long intros</span></div>
+    </div>
+  </details>
+</div>
+</details>
+</section>
+
+<!-- 06 DELIVERABILITY -->
+<section id="deliverability">
+<details class="sec">
+<summary><span class="n">06</span><h2>Email deliverability</h2><span class="sum">What to check before a send</span></summary>
+<div class="sec-inner">
+  <p class="lede">The rules themselves live in Copy by channel. This is what to check before a send, and why.</p>
+
+  <div>
+      <p style="font-size:14.5px">Gmail reads the subject line and preheader together to decide Primary or Promotions. Financial figures are the biggest signal. Trigger words and a text-light, image-heavy email push the same way.</p>
+      <div class="h4">Keep out of subject line and preheader</div>
+      <div class="chips bad"><span>$ or % figures</span><span>free</span><span>bonus</span><span>prize</span><span>win</span><span>jackpot</span><span>guaranteed</span><span>cash</span><span>exclusive offer</span><span>act now</span><span>limited time</span><span>click here</span></div>
+      <div class="h4">Safe</div>
+      <div class="chips good"><span>tournament</span><span>round</span><span>points</span><span>play</span><span>tonight</span><span>closes Sunday</span><span>team and sport names</span><span>username token</span></div>
+      <div class="ex">
+        <div class="row"><div class="g"><i>Promo-tab bait</i>$30,000 up for grabs this weekend</div><div class="r"><i>Inbox-safe</i>Three games. One leaderboard. Closes Sunday.</div></div>
+        <div class="row"><div class="g"><i>Promo-tab bait</i>Win a share of the Halloween prize pool</div><div class="r"><i>Inbox-safe</i>Four ways to play. Dare to play them all.</div></div>
+      </div>
+      <div class="h4">Also check</div>
+      <ul>
+        <li>Always include a plain text version, with real text alongside images.</li>
+        <li>SPF, DKIM and DMARC confirmed before any major send.</li>
+        <li>Pre-send tools: <a href="https://glockapps.com">GlockApps</a> (inbox placement), <a href="https://www.mail-tester.com">mail-tester</a> (quick spam score), <a href="https://postmaster.google.com">Google Postmaster Tools</a> (domain reputation).</li>
+      </ul>
+    </div>
+</div>
+</details>
+</section>
+
+<!-- 07 BRANDS -->
+<section id="brands">
+<details class="sec">
+<summary><span class="n">07</span><h2>Brands that get it</h2><span class="sum">Calibration, not imitation</span></summary>
+<div class="sec-inner">
+  <p class="lede">Not brands we copy. Brands that calibrate the taste. When in doubt: does this feel more like them, or like everyone else?</p>
+
+  <div class="tabs" role="tablist" data-group="brand">
+    <button role="tab" aria-selected="true" data-t="b-wendys">Wendy's</button>
+    <button role="tab" aria-selected="false" data-t="b-ryanair">Ryanair</button>
+    <button role="tab" aria-selected="false" data-t="b-duo">Duolingo</button>
+  </div>
+  <div class="panel on" id="b-wendys" data-group="brand">
+    <h3>Wendy's</h3><div class="sub">Self-aware · dry · never tries too hard</div>
+    <p><b>We borrow:</b> a point of view, and a dry delivery that lands the joke without winking at the camera.</p>
+  </div>
+  <div class="panel" id="b-ryanair" data-group="brand">
+    <h3>Ryanair</h3><div class="sub">Anti-corporate · brutally honest · owns the joke</div>
+    <p><b>We borrow:</b> the refusal to over-explain or over-apologize, and the trust that the audience gets it.</p>
+  </div>
+  <div class="panel" id="b-duo" data-group="brand">
+    <h3>Duolingo</h3><div class="sub">Consistent voice · purposeful chaos · never breaks character</div>
+    <p><b>We borrow:</b> consistency. Being memorable is a long game, built one on-voice interaction at a time.</p>
+  </div>
+  <p class="lede" style="margin-top:12px;font-size:14px">None of them sound like a casino. iGaming defaults to hype, caps and hollow urgency. Being unmistakably Roobet is the edge.</p>
+</div>
+</details>
+</section>
+
+<!-- 08 FOR WRITERS -->
+<section id="writers">
+<details class="sec">
+<summary><span class="n">08</span><h2>For writers</h2><span class="sum">Pre-submit check and AI check</span></summary>
+<div class="sec-inner">
+  <p class="lede">Optional. Only for the people producing copy. The doc templates carry the detailed reminders.</p>
+
+  <details class="acc opt">
+    <summary>Pre-submit check <span class="tag">6 questions</span></summary>
+    <div class="acc-body">
+      <ol class="check">
+        <li>Could a competitor have written this? If yes, it isn't Roobet yet.</li>
+        <li>Does it lead with the reward ("Get X if Y")?</li>
+        <li>Is the tone right for the department and the player's journey stage?</li>
+        <li>Do amounts and dates match across brief, landing page, email and onsite?</li>
+        <li>Are channel limits respected in every language?</li>
+        <li>Read it out loud. Does it sound live, not like an announcement?</li>
+      </ol>
+      <div class="note">Anything missing or ambiguous in the brief (dates, mechanics, game names, onsite desire-only or mechanic summary) goes to your CRM contact before writing, not after.</div>
+    </div>
+  </details>
+
+  <details class="acc opt">
+    <summary>AI check <span class="tag">optional</span></summary>
+    <div class="acc-body">
+      <p style="font-size:14.5px">AI is a good starting point. Left unedited, it reads like AI. If more than two of these are true, rewrite.</p>
+      <div class="chips bad"><span>Em dashes</span><span>Multiple "!"</span><span>Longer than the brief</span><span>Hollow adjectives</span><span>"If Y, get X"</span><span>Could be any casino</span></div>
+      <div class="cols" style="margin-top:12px">
+        <div class="mini"><b>Use AI for</b>First-draft structure, rough angles, options to react to, localization first pass, bullet logic, adapting approved EN copy.</div>
+        <div class="mini"><b>Never let AI</b>Write the final subject line, make tone calls, write VIP communications, or ship copy no human has read.</div>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted);margin-top:10px">Second opinions: <a href="https://originality.ai">Originality.ai</a>, <a href="https://copyleaks.com">Copyleaks</a>. And your own ear. AI writes a draft. You write Roobet.</p>
+    </div>
+  </details>
+</div>
+</details>
+</section>
+
+<!-- LOCALIZATIONS -->
+<section id="localizations">
+<details class="sec">
+<summary><span class="n">09</span><h2>Localizations</h2><span class="sum">Spanish, Portuguese, Japanese</span></summary>
+<div class="sec-inner">
+  <div>
+      <p style="font-size:14px;color:var(--muted)">Same voice, different language. Open each section when you need it.</p>
+      <div class="loc-grid">
+
+        <details class="acc">
+          <summary>General rules <small>all languages</small></summary>
+          <div class="acc-body">
+            <div class="term"><b>Localize, don't translate</b><span>Sound like Roobet in that language, not a word-for-word render of English.</span></div>
+            <div class="term"><b>Limits are fixed</b><span>Languages run longer. Tighten the message, not the rules.</span></div>
+            <div class="term"><b>Exclamation points</b><span>EN: one max. ES: even more restrained. Never fake energy with punctuation.</span></div>
+            <div class="term"><b>CTAs</b><span>Conjugated imperative, 2 to 3 words max. "Juega ahora", not "Jugar ahora".</span></div>
+            <div class="term"><b>Promo names</b><span>Stay in English, in italics, highlighted yellow in the source so CRM can link. Mr. Roo is always Mr. Roo.</span></div>
+            <div class="term"><b>No regional lock-in</b><span>Unless targeting one market, copy must work across all markets sharing that language.</span></div>
+            <div class="term"><b>Capitalization</b><span>ES and PT-BR: no title case in subject lines.</span></div>
+            <div class="term"><b>esports</b><span>Always lowercase e, in every language.</span></div>
+          </div>
+        </details>
+
+        <details class="acc">
+          <summary>Spanish <small>Mexico · Argentina · LATAM</small></summary>
+          <div class="acc-body">
+            <div class="term"><b>Register</b><span>Neutral tuteo, nothing regional. No voseo: <code>agarras</code> not <code>agarrá</code>. Day to day: <code>tú</code>, plural <code>ustedes</code>. For T&amp;Cs, confirm with the requester if <code>usted</code> is needed.</span></div>
+            <div class="term"><b>Exclamations</b><span>Even more restrained than English. Full inverted sets: ¡Así se juega!</span></div>
+            <div class="term"><b>Numbers and dates</b><span>$30,000 not $30.000, consistent with English. Dates DD/MM.</span></div>
+            <div class="term"><b>Prize pool</b><span>"$X en premios" for Roobet-owned campaigns. "Pozo total" may appear in network promotions. Stay consistent within a campaign.</span></div>
+            <div class="term"><b>False friends</b><span>"Billion" = "mil millones". "Billón" = trillion. Always double-check large numbers.</span></div>
+            <div class="term"><b>Terminology</b><span>Free Bets: <code>Apuesta Gratis / Apuestas Gratis</code>. Opt-in: <code>Apúntate</code>. How to Enter: <code>Cómo unirte</code>. Autobet: <code>Autoapuesta</code>. Leaderboard: <code>ranking</code> or <code>tabla de clasificación</code>.</span></div>
+            <div class="term"><b>Avoid</b><span><code>Contendientes</code> doesn't land naturally in LATAM markets.</span></div>
+            <div class="term"><b>Keep in English</b><span>Sportsbook, lobby, game names, client seed, stop on loss, stop on profit, jackpot tier names (Mini/Minor/Major/Mega), free chips.</span></div>
+            <div class="ex">
+              <div class="row"><div class="g"><i>Generic</i>¡No te pierdas esta increíble oportunidad! ¡El premio es tuyo!</div><div class="r"><i>Roobet</i>Lo dominarás en una ronda 🔥</div></div>
+              <div class="row"><div class="g"><i>Generic</i>¡Elegí tu multiplicador y confirmalo ya!</div><div class="r"><i>Roobet</i>Elige tu multiplicador, confírmalo y fíjate dónde para.</div></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="acc">
+          <summary>Portuguese <small>Brazil</small></summary>
+          <div class="acc-body">
+            <div class="term"><b>Length</b><span>Runs longer than English, so limits matter even more. Never word-for-word.</span></div>
+            <div class="term"><b>Register</b><span><code>você</code> for day to day, not European <code>tu</code>. "A gente" over "nós" for natural conversation.</span></div>
+            <div class="term"><b>False cognates</b><span>"Atualmente" is not "actually". The English source should say "currently" or "nowadays".</span></div>
+            <div class="term"><b>Numbers and dates</b><span>Thousands with a dot ($1.000), decimals with a comma (1,7). Dates DD/MM. Ranges: "28/08 a 10/09".</span></div>
+          </div>
+        </details>
+
+        <details class="acc">
+          <summary>Japanese <small>Japan</small></summary>
+          <div class="acc-body">
+            <div class="term"><b>S-L-A-P</b><span>Speak Like A Person. No nominalizing verbs, no repetition, write succinctly. Space after question marks.</span></div>
+            <div class="term"><b>Newsletters</b><span>Spoken, conversational written form, not formal document language.</span></div>
+            <div class="term"><b>Word order</b><span>Don't mirror English structure. Translate context, not words.</span></div>
+            <div class="term"><b>Numbers and dates</b><span>Date AA/MM/DD. Alphanumeric characters for numbers. Currency: $.</span></div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+</div>
+</details>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Brand Voice Manual · Roobet 2026 · Internal use only · Content &amp; CRM Team</span>
+    <a href="https://luisc-ux.github.io/roobet-brand-voice/comments.html">Review comments</a>
+    <span class="cvox-off" id="cvoxOff">Comments are unavailable right now (config.js not found).</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Tabs
+  document.querySelectorAll('.tabs').forEach(function(tabs){
+    var group = tabs.getAttribute('data-group');
+    tabs.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        tabs.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-selected', b===btn ? 'true':'false'); });
+        document.querySelectorAll('.panel[data-group="'+group+'"]').forEach(function(p){
+          p.classList.toggle('on', p.id === btn.getAttribute('data-t'));
+        });
+      });
+    });
+  });
+
+  // Sections: one open at a time, unless "Expand all"
+  var all = document.getElementById('toggleAll');
+  var secs = Array.prototype.slice.call(document.querySelectorAll('details.sec'));
+  var bulk = false, expanded = false;
+  secs.forEach(function(d){
+    d.addEventListener('toggle', function(){
+      if(d.open && !bulk){ secs.forEach(function(o){ if(o!==d) o.open = false; }); }
+    });
+  });
+  all.addEventListener('click', function(){
+    expanded = !expanded; bulk = true;
+    secs.forEach(function(d){ d.open = expanded; });
+    document.querySelectorAll('details.acc').forEach(function(d){ d.open = expanded; });
+    setTimeout(function(){ bulk = false; }, 50);
+    all.textContent = expanded ? 'Collapse all' : 'Expand all';
+  });
+
+  // Nav links open their section and scroll to it
+  function openSection(id){
+    var sec = document.getElementById(id);
+    if(!sec) return;
+    var d = sec.querySelector('details.sec');
+    if(d && !d.open){ d.open = true; }
+    setTimeout(function(){ sec.scrollIntoView({behavior:'smooth', block:'start'}); }, 30);
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href').slice(1);
+      if(document.getElementById(id)){ e.preventDefault(); history.replaceState(null,'','#'+id); openSection(id); }
+    });
+  });
+  if(location.hash){ openSection(location.hash.slice(1)); }
+})();
+</script>
+
+<script>
+// Comments: load config, then the comment system (fails quietly if either file is missing)
+(function(){
+  function load(src, ok, fail){
+    var el = document.createElement('script');
+    el.src = src; el.onload = ok; el.onerror = fail || function(){};
+    document.body.appendChild(el);
+  }
+  function go(){ load('assets/comments.js'); }
+  load('assets/config.js', go, function(){ load('config.js', go, function(){ var m=document.getElementById('cvoxOff'); if(m) m.classList.add('show'); }); });
+})();
+</script>
+</body>
+</html>
